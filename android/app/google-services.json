@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1094645322130",
+    "project_id": "d-vibe",
+    "storage_bucket": "d-vibe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094645322130:android:896921eef41ff22099714b",
+        "android_client_info": {
+          "package_name": "com.example.bill_splitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1094645322130-937rb596trcs3njhjem0fh8r4j5astvo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACBNmdV86w8Hmq6DJKToASrsMA6aw_rtY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1094645322130-937rb596trcs3njhjem0fh8r4j5astvo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
