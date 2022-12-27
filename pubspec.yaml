@@ -39,6 +39,9 @@ dependencies:
   firebase_core: ^2.4.0
   firebase_auth: ^4.2.1
 
+  # access to the contact
+  flutter_contacts: ^1.1.5+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

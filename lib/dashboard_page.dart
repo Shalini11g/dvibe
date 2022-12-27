@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bill_splitter/viewModel/contact.dart'; //just for the demo, will be remove
 
 import 'package:bill_splitter/bills_page.dart';
 import 'package:bill_splitter/history_page.dart';
@@ -36,6 +37,14 @@ class _DashboardPageState extends State<DashboardPage> {
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             debugPrint('Add bill button clicked');
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
+                builder: (BuildContext) {
+                  return ListContact();
+                },
+              ),
+            );
           },
           child: const Icon(Icons.add)),
       // Bottom Navbar

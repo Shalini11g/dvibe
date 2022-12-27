@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bill_splitter">
-   <application
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+
+    <application
         android:label="bill_splitter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

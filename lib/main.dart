@@ -172,11 +172,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 print('Page redirected');
 
                 // Bypassing the login screen
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => const DashboardPage()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DashboardPage()),
+                );
               },
               child: const Text(
                 "Login",
