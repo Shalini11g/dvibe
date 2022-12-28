@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bill_splitter/viewModel/contact.dart'; //just for the demo, will be remove
+import 'package:bill_splitter/view/sm_select_contact_view.dart';
 
 import 'package:bill_splitter/bills_page.dart';
 import 'package:bill_splitter/history_page.dart';
@@ -41,7 +41,7 @@ class _DashboardPageState extends State<DashboardPage> {
               MaterialPageRoute(
                 // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
                 builder: (BuildContext) {
-                  return ListContact();
+                  return SendMoneySelectContact(context).view();
                 },
               ),
             );

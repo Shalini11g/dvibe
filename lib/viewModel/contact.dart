@@ -4,23 +4,47 @@ import 'package:flutter/material.dart';
 
 /*
 Generic phone contact list.
-The class _ListContactState generate a generic phone contact list
+The class ListContact generate a generic phone contact list
 that can be finetune to do more specific task.
 
-Just extends _ListContactState, and override _actionDoToWhenAContactIsTap
+Just give a function on the constructor, this function will be call when
+a contact is tap. The taped contact is send into the function.
+
+example :
+void printContact(Contact contact){
+  debugPrint(contact.displayName);
+}
+ListContact(printContact)
+
+Then, the function will print the taped contact.
  */
 
 //the view that generate a simple list of contact
 class ListContact extends StatefulWidget {
   @override
-  _ListContactState createState() => _ListContactState();
+  ListContactState createState() => ListContactState(action);
+
+  action(Contact contact){
+    if(actionOnTap == null){
+      debugPrint(contact.displayName);
+    }else{
+      actionOnTap!(contact);
+    }
+
+  }
+  Function? actionOnTap;
+  ListContact(Function(Contact) actionToDoWhenAContactIsTap){
+    this.actionOnTap = actionToDoWhenAContactIsTap;
+  }
 }
 
-/*the list generator
-Please, extend this class to made our own list and override the function _actionDoToWhenAContactIsTap*/
-class _ListContactState extends State<ListContact> {
+//the list generator
+
+class ListContactState extends State<ListContact> {
+
   List<Contact>? _phoneContact;
   bool _permissionDenied = false;
+
 
   //Here we fetch contact from the mobile (just copy and past from the documentation flutter_contact)
   @override
@@ -37,17 +61,18 @@ class _ListContactState extends State<ListContact> {
     }
   }
 
-  // Create a page and display a list of contact. Usefull only to do some test
+  // Create a page and display a list of contact
   @override
   Widget build(BuildContext context) => MaterialApp(
       home: Scaffold(
           appBar: AppBar(title: Text('Select contact')),
-          body: drawContactList()));
+          body: _drawContactList()));
 
   //the interesting part, draw the list of contact fetched from the phone
   //each contact is draw with the function _drawOneContact
   //When a contact is tap, the function _actionDoToWhenAContactIsTap is triggered
-  Widget drawContactList() {
+  // actionDoToWhenAContactIsTap is the custom function give in ListContact(function)
+  Widget _drawContactList() {
     if (_permissionDenied) return Center(child: Text('We need to access contact'));
     if (_phoneContact == null) return Center(child: CircularProgressIndicator());
     return ListView.builder(
@@ -55,7 +80,8 @@ class _ListContactState extends State<ListContact> {
         itemBuilder: (context, i) => ListTile(
           title: _drawOneContact(_phoneContact![i]),
           onTap: (){
-            _actionDoToWhenAContactIsTap(_phoneContact![i]);
+            actionDoToWhenAContactIsTap!(_phoneContact![i]);
+
           },
 
         ));
@@ -64,17 +90,7 @@ class _ListContactState extends State<ListContact> {
   Widget _drawOneContact(Contact contact){
     return Row(
       children: [
-        Container(
-          width: 50,
-          height: 50,
-          margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: (contact.thumbnail != null)? DecorationImage(image: MemoryImage(contact.thumbnail!)):null,
-              color: Colors.blue
-          ),
-          child: (contact.thumbnail == null)? Icon(Icons.person, color: Colors.white,):null,
-        ),
+        profilePicture(contact,50),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -87,10 +103,22 @@ class _ListContactState extends State<ListContact> {
     );
   }
 
-  // Triggered when a contact is tap
-  // The tapped contact is give
-  //Please, override this function to do another stuff
-  _actionDoToWhenAContactIsTap(Contact contact){
-    debugPrint(contact.displayName);
+  Container profilePicture(Contact contact, double size){
+    return Container(
+      width: size,
+      height: size,
+      //margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: (contact.thumbnail != null)? DecorationImage(image: MemoryImage(contact.thumbnail!),scale: 0.8):null,
+          color: Colors.blue
+      ),
+      child: (contact.thumbnail == null)? Icon(Icons.person, color: Colors.white,size: size/2,):null,
+    );
+  }
+
+  Function? actionDoToWhenAContactIsTap;
+  ListContactState(Function(Contact)? actionDoToWhenAContactIsTap){
+    this.actionDoToWhenAContactIsTap = actionDoToWhenAContactIsTap;
   }
 }
