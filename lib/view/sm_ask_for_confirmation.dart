@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:bill_splitter/viewModel/contact.dart';
+import 'package:bill_splitter/viewModel/sm_strNumber_operation.dart';
 
 class SendMoneyAskForConfirmation extends StatelessWidget{
   String amountRealPart = "";
@@ -71,35 +72,13 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
   }
   SendMoneyAskForConfirmation(String amount, Contact contact){
     this.contact = contact;
-    amount = cleanNumber(amount);
+    //class who contain some logic use in this view
+    strNumber formating = new strNumber(); //from viewModel/sm_strNumber_operation.dart
+    amount = formating.cleanNumber(amount);
     //look like "$1,"
-    this.amountRealPart = this.getRealPart(amount);
+    this.amountRealPart = formating.getRealPart(amount);
     //look like "00"
-    this.amountDecimalPart = this.getDecimalPart(amount);
+    this.amountDecimalPart = formating.getDecimalPart(amount);
     //If you concatenate this two string, you get "$1,00"
-  }
-
-  //this part will be move in viewModel
-  String getRealPart(String number){
-    List<String> splitedAmount = number.split(".");
-    return "\$"+splitedAmount[0]+",";
-  }
-  String getDecimalPart(String number){
-    List<String> splitedAmount = number.split(".");
-    String decimalPart = "00";
-    if(splitedAmount.length >=2){
-      String decimalPart = splitedAmount[1];
-    }
-
-    if(decimalPart.length == 0){
-      decimalPart = "00";
-    }else if(decimalPart.length == 1){
-      decimalPart = decimalPart+"0";
-    }
-    return decimalPart;
-  }
-  String cleanNumber(String number){
-    number = number.replaceAll(",", ".");
-    return number;
   }
 }
