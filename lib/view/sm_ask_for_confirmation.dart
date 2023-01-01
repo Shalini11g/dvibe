@@ -14,12 +14,12 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
     return MaterialApp(
         home: Scaffold(
           appBar: AppBar(title: Text("Send money"),),
-          body: _body()
+          body: _body(context)
         )
     );
   }
   
-  Widget _body(){
+  Widget _body(BuildContext context){
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -56,7 +56,7 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
           children: [
             ElevatedButton(
                 onPressed: (){
-                  debugPrint("Cancel");
+                  print(Navigator.of(context));
                 },
                 child: Text("Cancel")),
             SizedBox(width: 10),
