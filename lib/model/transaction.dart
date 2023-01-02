@@ -6,14 +6,14 @@ import 'package:bill_splitter/model/user.dart';
 // a transaction to pay a bill
 // or a transaction to pay a sharedBill
 class Transaction{
-  User? from;
-  User? to;
+  UserApp? from;
+  UserApp? to;
   double amount=0;
   String comment = "";
   DateTime? dateOfTransaction;
   Bill? bill;
 
-  Transaction(User from, User to,double amount, String comment,DateTime dateOfTransation){
+  Transaction(UserApp from, UserApp to,double amount, String comment,DateTime dateOfTransation){
     this.from = from;
     this.to = to;
     this.amount = amount;

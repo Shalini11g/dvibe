@@ -4,14 +4,14 @@ import 'package:bill_splitter/model/user.dart';
 class SharedBillParticipant{
   double amount = 0;
   bool hasPay = false;
-  User? user;
+  UserApp? user;
 
   SharedBillParticipant(String name, String phoneNumber, double amount, bool hasPay){
     this.amount = amount;
     this.hasPay = hasPay;
-    this.user = new User(name, phoneNumber);
+    this.user = new UserApp(name, phoneNumber);
   }
-  SharedBillParticipant.fromUser(User user, double amount, bool hasPay){
+  SharedBillParticipant.fromUser(UserApp user, double amount, bool hasPay){
     this.amount = amount;
     this.hasPay = hasPay;
     this.user = user;

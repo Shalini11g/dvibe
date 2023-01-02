@@ -3,11 +3,11 @@ import 'package:bill_splitter/model/user.dart';
 
 //when more than one people have to pay the same bill, this is a shared bill
 class SharedBill{
-  User? from;
+  UserApp? from;
   List<SharedBillParticipant>? to;
   String comment = "";
 
-  SharedBill(User from, List<SharedBillParticipant> to, String comment){
+  SharedBill(UserApp from, List<SharedBillParticipant> to, String comment){
     this.from = from;
     this.to = to;
     this.comment = comment;

@@ -9,8 +9,8 @@ the method isSharedBill() help
 
  */
 class Bill{
-  User? from;
-  User? to;
+  UserApp? from;
+  UserApp? to;
   double amount = 0;
   String comment = "";
   bool isPay = false;
@@ -18,7 +18,7 @@ class Bill{
   DateTime? dateOfCreation;
   SharedBill? sharedBill;
 
-  Bill(User from, User to, double amount, String comment, DateTime dateOfCreation, bool isPay){
+  Bill(UserApp from, UserApp to, double amount, String comment, DateTime dateOfCreation, bool isPay){
     this.from = from;
     this.to = to;
     this. amount = amount;

@@ -10,16 +10,16 @@ void main(){
   participants.add(SharedBillParticipant("Arthur","+445675376572",150,false));
   participants.add(SharedBillParticipant("Louise","+33754562145",150,false));
   participants.add(SharedBillParticipant("Bernard","+33654756757",150,true));
-  SharedBill sharedBill = new SharedBill(User("Alex","+33545677"), participants, "comment");
+  SharedBill sharedBill = new SharedBill(UserApp("Alex","+33545677"), participants, "comment");
   DateTime date = DateTime.now();
 
-  Bill normalBill = new Bill(User("Jean","+2454564537"),User("Alice","+5552757654"),452,"",date,true);
-  Bill billShared = new Bill(User("Jean","+2454564537"),User("Alice","+5552757654"),452,"",date,false);;
+  Bill normalBill = new Bill(UserApp("Jean","+2454564537"),UserApp("Alice","+5552757654"),452,"",date,true);
+  Bill billShared = new Bill(UserApp("Jean","+2454564537"),UserApp("Alice","+5552757654"),452,"",date,false);;
   billShared.sharedBill = sharedBill;
 
-  Transaction simpleTransaction = Transaction(User("Michel","+65787545"), User("Albert","+564567576"), 410, "comment", date);
-  Transaction payBillTransaction = Transaction(User("Michel","+65787545"), User("Albert","+564567576"), 410, "comment", date);
-  Transaction paySharedBillTransaction = Transaction(User("Michel","+65787545"), User("Albert","+564567576"), 410, "comment", date);
+  Transaction simpleTransaction = Transaction(UserApp("Michel","+65787545"), UserApp("Albert","+564567576"), 410, "comment", date);
+  Transaction payBillTransaction = Transaction(UserApp("Michel","+65787545"), UserApp("Albert","+564567576"), 410, "comment", date);
+  Transaction paySharedBillTransaction = Transaction(UserApp("Michel","+65787545"), UserApp("Albert","+564567576"), 410, "comment", date);
 
   payBillTransaction.bill = normalBill;
   paySharedBillTransaction.bill = billShared;
