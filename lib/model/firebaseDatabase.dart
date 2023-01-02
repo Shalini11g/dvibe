@@ -32,8 +32,8 @@ class FirebaseDatabase{
     transactions.add(Transaction(User("Anne","+336 50 24 21 10"), User("Macron","+447 97 54 22 10"), 20, "I have to reimburse you", date));
     transactions.add(Transaction(User("Maurice","+336 54 54 10 20"), User("François","+447 97 54 24 10"), 12.5, "Thank you", date));
     
-    transactions[1].bill = Bill(User("Maurice","+447 86 54 24 75"), User("Akash","+336 45 11 01 20"), 450, "Don't forget for the restaurant", date);
-    transactions[2].bill = Bill(User("Shalini","+447 54 21 80 21"), User("Gauri","+336 78 54 40 12"), 450, "For something", date);
+    transactions[1].bill = Bill(User("Maurice","+447 86 54 24 75"), User("Akash","+336 45 11 01 20"), 450, "Don't forget for the restaurant", date,true);
+    transactions[2].bill = Bill(User("Shalini","+447 54 21 80 21"), User("Gauri","+336 78 54 40 12"), 450, "For something", date,true);
 
     List<SharedBillParticipant> participants = [];
     participants.add(SharedBillParticipant("Akash","+336 45 11 01 20",50,false));
@@ -57,12 +57,12 @@ class FirebaseDatabase{
  List<Bill> getBills(){
     List<Bill> bills = [];
     DateTime date = DateTime.now();
-    bills.add(Bill(User("Akash","+45 876 575676"),User("Donald","+5455754876"),540.10,"For the cafe",date));
-    bills.add(Bill(User("Alex","+45 876 575676"),User("Patric","+5455754876"),45,"",date));
-    bills.add(Bill(User("Bob","+45 876 575676"),User("Lauris","+5455754876"),150,"For the party",date));
-    bills.add(Bill(User("Maxence","+45 876 575676"),User("Donald","+5455754876"),150,"",date));
-    bills.add(Bill(User("Akash","+45 876 575676"),User("Gauri","+5455754876"),101,"",date));
-    bills.add(Bill(User("Paul","+45 876 575676"),User("Pierre","+5455754876"),15,"For the restaurant",date));
+    bills.add(Bill(User("Akash","+45 876 575676"),User("Donald","+5455754876"),540.10,"For the cafe",date,true));
+    bills.add(Bill(User("Alex","+45 876 575676"),User("Patric","+5455754876"),45,"",date,false));
+    bills.add(Bill(User("Bob","+45 876 575676"),User("Lauris","+5455754876"),150,"For the party",date,false));
+    bills.add(Bill(User("Maxence","+45 876 575676"),User("Donald","+5455754876"),150,"",date,true));
+    bills.add(Bill(User("Akash","+45 876 575676"),User("Gauri","+5455754876"),101,"",date,true));
+    bills.add(Bill(User("Paul","+45 876 575676"),User("Pierre","+5455754876"),15,"For the restaurant",date,true));
 
     List<SharedBillParticipant> participants = [];
     participants.add(SharedBillParticipant("Akash","+336 45 11 01 20",50,false));

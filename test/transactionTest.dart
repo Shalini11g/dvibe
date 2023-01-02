@@ -13,8 +13,8 @@ void main(){
   SharedBill sharedBill = new SharedBill(User("Alex","+33545677"), participants, "comment");
   DateTime date = DateTime.now();
 
-  Bill normalBill = new Bill(User("Jean","+2454564537"),User("Alice","+5552757654"),452,"",date);
-  Bill billShared = new Bill(User("Jean","+2454564537"),User("Alice","+5552757654"),452,"",date);;
+  Bill normalBill = new Bill(User("Jean","+2454564537"),User("Alice","+5552757654"),452,"",date,true);
+  Bill billShared = new Bill(User("Jean","+2454564537"),User("Alice","+5552757654"),452,"",date,false);;
   billShared.sharedBill = sharedBill;
 
   Transaction simpleTransaction = Transaction(User("Michel","+65787545"), User("Albert","+564567576"), 410, "comment", date);

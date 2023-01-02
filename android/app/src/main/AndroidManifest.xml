@@ -2,7 +2,7 @@
     package="com.example.bill_splitter">
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="bill_splitter"
         android:name="${applicationName}"

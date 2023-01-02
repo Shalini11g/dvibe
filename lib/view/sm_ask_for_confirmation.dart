@@ -41,7 +41,7 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ListContactState(print).profilePicture(this.contact!, 50),
+            ListContactState().profilePicture(this.contact!, 50),
             SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

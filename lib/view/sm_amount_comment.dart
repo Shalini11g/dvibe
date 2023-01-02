@@ -47,7 +47,7 @@ class SendMoneyAmountCommentState extends State<SendMoneyAmountComment>{
         child: Column(
           children: [
             SizedBox(height: 20),
-            ListContactState(null).profilePicture(this._contact, 100),
+            ListContactState().profilePicture(this._contact, 100),
             SizedBox(height: 10),
             Text(this._contact.displayName,
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),

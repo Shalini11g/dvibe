@@ -12,8 +12,8 @@ void main(){
   SharedBill sharedBill = new SharedBill(User("Alex","+33545677"), participants, "comment");
   DateTime date = DateTime.now();
 
-  Bill normalBill = new Bill(User("Jean","+2454564537"),User("Alice","+5552757654"),452,"",date);
-  Bill billShared = new Bill(User("Jean","+2454564537"),User("Alice","+5552757654"),452,"",date);;
+  Bill normalBill = new Bill(User("Jean","+2454564537"),User("Alice","+5552757654"),452,"",date,false);
+  Bill billShared = new Bill(User("Jean","+2454564537"),User("Alice","+5552757654"),452,"",date,true);
   billShared.sharedBill = sharedBill;
 
   test("this is a normal bill", (){

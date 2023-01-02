@@ -21,8 +21,13 @@ Then, the function will print the taped contact.
 
 //the view that generate a simple list of contact
 class ListContact extends StatefulWidget {
+  Function? actionOnTap;
+  ListContact(Function(Contact) actionToDoWhenAContactIsTap){
+    this.actionOnTap = actionToDoWhenAContactIsTap;
+  }
+
   @override
-  ListContactState createState() => ListContactState(action);
+  ListContactState createState() => ListContactState.customFunction(action);
 
   action(Contact contact){
     if(actionOnTap == null){
@@ -31,10 +36,6 @@ class ListContact extends StatefulWidget {
       actionOnTap!(contact);
     }
 
-  }
-  Function? actionOnTap;
-  ListContact(Function(Contact) actionToDoWhenAContactIsTap){
-    this.actionOnTap = actionToDoWhenAContactIsTap;
   }
 }
 
@@ -118,7 +119,10 @@ class ListContactState extends State<ListContact> {
   }
 
   Function? actionDoToWhenAContactIsTap;
-  ListContactState(Function(Contact)? actionDoToWhenAContactIsTap){
+  ListContactState.customFunction(Function(Contact)? actionDoToWhenAContactIsTap){
     this.actionDoToWhenAContactIsTap = actionDoToWhenAContactIsTap;
+  }
+  ListContactState(){
+
   }
 }

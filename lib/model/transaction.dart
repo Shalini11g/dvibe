@@ -1,6 +1,10 @@
 import 'package:bill_splitter/model/bill.dart';
 import 'package:bill_splitter/model/user.dart';
 
+// represent a transaction
+// this transaction can be a simple transaction,
+// a transaction to pay a bill
+// or a transaction to pay a sharedBill
 class Transaction{
   User? from;
   User? to;

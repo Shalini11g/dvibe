@@ -8,7 +8,6 @@ class askForMoneyForm extends StatefulWidget{
   Contact? contact;
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return askForMoneyFormState(contact!);
   }
   askForMoneyForm(Contact contact){
@@ -39,7 +38,7 @@ class askForMoneyFormState extends State<askForMoneyForm>{
         child: Column(
           children: [
             SizedBox(height: 20),
-            ListContactState(null).profilePicture(this._contact, 100),
+            ListContactState().profilePicture(this._contact, 100),
             SizedBox(height: 10),
             Text(this._contact.displayName,
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),

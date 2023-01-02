@@ -1,6 +1,7 @@
 import 'package:bill_splitter/model/sharedBillParticipant.dart';
 import 'package:bill_splitter/model/user.dart';
 
+//when more than one people have to pay the same bill, this is a shared bill
 class SharedBill{
   User? from;
   List<SharedBillParticipant>? to;

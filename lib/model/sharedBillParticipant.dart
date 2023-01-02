@@ -1,5 +1,6 @@
 import 'package:bill_splitter/model/user.dart';
 
+//represent the participant of a sharedBill
 class SharedBillParticipant{
   double amount = 0;
   bool hasPay = false;

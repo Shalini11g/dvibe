@@ -1,3 +1,5 @@
+
+//represent a user. Used in transaction, bill, sharedBill
 class User{
   String name = "";
   String phoneNumber = "";
