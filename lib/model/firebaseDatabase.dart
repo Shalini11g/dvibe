@@ -24,12 +24,13 @@ class FirebaseDatabase{
     return response2.statusCode == 200 && response.statusCode == 200 && response3.statusCode == 200;
   }
   //create new bill
-  Future<http.Response> sendBill(Bill bill) async {
+  Future<bool> sendBill(Bill bill) async {
     bill.id = await _api.getBillId();
     debugPrint("bill id "+bill.id.toString());
     final http.Response response = await _api.createNewBill(bill, "newBill.json");
     final http.Response response2 = await _api.createNewBill(bill, "users/"+bill.from!.phoneNumber+"/bills.json");
-    return response;
+    final http.Response response3 = await _api.updateCountBill(bill.id+1);
+    return response2.statusCode == 200 && response.statusCode == 200 && response3.statusCode == 200;
   }
   //create new shared bill
   void sendSharedBill(SharedBill sharedBill){
