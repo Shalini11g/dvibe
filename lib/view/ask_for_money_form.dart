@@ -4,18 +4,18 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 
 import '../viewModel/contact.dart';
 
-class askForMoneyForm extends StatefulWidget{
+class AskForMoneyForm extends StatefulWidget{
   Contact? contact;
   @override
   State<StatefulWidget> createState() {
-    return askForMoneyFormState(contact!);
+    return AskForMoneyFormState(contact!);
   }
-  askForMoneyForm(Contact contact){
+  AskForMoneyForm(Contact contact){
     this.contact = contact;
   }
 }
 
-class askForMoneyFormState extends State<askForMoneyForm>{
+class AskForMoneyFormState extends State<AskForMoneyForm>{
   Contact _contact = new Contact();
   TextEditingController inputAmountOfMoneyToSend = TextEditingController();
   TextEditingController inputCommentWithMoneySend = TextEditingController();
@@ -23,7 +23,7 @@ class askForMoneyFormState extends State<askForMoneyForm>{
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-          appBar: AppBar(title: Text("Send money"),),
+          appBar: AppBar(title: Text("Ask money"),),
           body: SingleChildScrollView(
             child: _body(),
           ),
@@ -86,7 +86,7 @@ class askForMoneyFormState extends State<askForMoneyForm>{
       ),
     );
   }
-  askForMoneyFormState(Contact contact){
+  AskForMoneyFormState(Contact contact){
     this._contact = contact;
   }
 

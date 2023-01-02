@@ -9,7 +9,7 @@ This class use ListContact with a custom function.
 When the user has select a contact, this class open SendMoneyAmountComment
 with the selected contact
  */
-class SendMoneySelectContact{
+class AskMoneySelectContact{
   BuildContext? context;
 
   //generate the list of contact
@@ -21,13 +21,13 @@ class SendMoneySelectContact{
     Navigator.of(context!).push(
       MaterialPageRoute(
         builder: (BuildContext) {
-          return askForMoneyForm(contact);
+          return AskForMoneyForm(contact);
         },
       ),
     );
   }
   //we need the context to open a new view
-  SendMoneySelectContact(BuildContext context){
+  AskMoneySelectContact(BuildContext context){
     this.context = context;
   }
 }

@@ -4,6 +4,8 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:bill_splitter/viewModel/contact.dart';
 import 'package:bill_splitter/viewModel/sm_strNumber_operation.dart';
 
+import 'dashboard_page.dart';
+
 class SendMoneyAskForConfirmation extends StatelessWidget{
   String amountRealPart = "";
   String amountDecimalPart = "";
@@ -56,7 +58,11 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
           children: [
             ElevatedButton(
                 onPressed: (){
-                  print(Navigator.of(context));
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context){
+                    return DashboardPage();
+                  }), (r){
+                    return false;
+                  });
                 },
                 child: Text("Cancel")),
             SizedBox(width: 10),
