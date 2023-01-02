@@ -50,7 +50,7 @@ class BillsPage extends StatelessWidget {
         SizedBox(height: 20),
         Row(
           children: [
-            sendOrreceive(iMustSendMoney),
+            sendOrReceive(iMustSendMoney),
             SizedBox(width: 10),
             Text(strNumber().formatNumber(bill.amount.toString()),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Color.fromARGB(255, 75, 75, 75))),
@@ -75,7 +75,7 @@ class BillsPage extends StatelessWidget {
       ],
     );
   }
-  Icon sendOrreceive(bool iMustSendMoney){
+  Icon sendOrReceive(bool iMustSendMoney){
     if(iMustSendMoney){
       return Icon(Icons.arrow_back,color: Colors.red,);
     }
