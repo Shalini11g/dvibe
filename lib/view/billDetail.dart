@@ -22,6 +22,7 @@ class BillDetailPage extends StatelessWidget{
         Text(bill!.from!.name),
         Text(bill!.from!.phoneNumber),
         Text(strNumber().formatNumber(bill!.amount.toString()))
+
       ],
     );
   }

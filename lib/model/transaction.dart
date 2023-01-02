@@ -12,8 +12,9 @@ class Transaction{
   String comment = "";
   DateTime? dateOfTransaction;
   Bill? bill;
+  int id = -1;
 
-  Transaction(UserApp from, UserApp to,double amount, String comment,DateTime dateOfTransation){
+  Transaction(UserApp from, UserApp to,double amount, String comment,DateTime dateOfTransaction){
     this.from = from;
     this.to = to;
     this.amount = amount;

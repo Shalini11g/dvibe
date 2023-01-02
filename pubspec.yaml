@@ -38,10 +38,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.4.0
   firebase_auth: ^4.2.1
+  # do request
   http: ^0.13.5
-
   # access to the contact
   flutter_contacts: ^1.1.5+1
+
+  get_phone_number: ^2.0.1
 
 dev_dependencies:
   flutter_test:
