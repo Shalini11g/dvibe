@@ -1,4 +1,4 @@
-import 'package:bill_splitter/dashboard_page.dart';
+import 'package:bill_splitter/view/dashboard_page.dart';
 import 'package:bill_splitter/view/homePage.dart';
 
 import 'package:flutter/material.dart';
