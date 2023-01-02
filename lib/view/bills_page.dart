@@ -44,10 +44,6 @@ class BillsPage extends StatelessWidget {
       comment = "...";
     }
 
-    String isPay = "unpaid";
-    if(bill.isPay){
-      isPay = "paid";
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
