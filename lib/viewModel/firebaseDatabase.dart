@@ -73,12 +73,12 @@ class FirebaseDatabase{
   List<Bill> getBills(){
     List<Bill> bills = [];
     DateTime date = DateTime.now();
-    bills.add(Bill(UserApp("Akash","+45 876 575676"),UserApp("Donald","+5455754876"),540.10,"For the cafe",date,true));
-    bills.add(Bill(UserApp("Alex","+45 876 575676"),UserApp("Patric","+5455754876"),45,"",date,false));
-    bills.add(Bill(UserApp("Bob","+45 876 575676"),UserApp("Lauris","+5455754876"),150,"For the party",date,false));
+    bills.add(Bill(UserApp("Jean Francis","+45 876 575676"),UserApp("Donald","+5455754876"),540.10,"For the cafe",date,true));
+    bills.add(Bill(UserApp("Alex","+5455754876"),UserApp("Jean Francis","+45 876 575676"),45,"",date,false));
+    bills.add(Bill(UserApp("Bob","+5455754876"),UserApp("Jean Francis","+45 876 575676"),150,"For the party",date,false));
     bills.add(Bill(UserApp("Maxence","+45 876 575676"),UserApp("Donald","+5455754876"),150,"",date,true));
-    bills.add(Bill(UserApp("Akash","+45 876 575676"),UserApp("Gauri","+5455754876"),101,"",date,true));
-    bills.add(Bill(UserApp("Paul","+45 876 575676"),UserApp("Pierre","+5455754876"),15,"For the restaurant",date,true));
+    bills.add(Bill(UserApp("Macron","+5455754876"),UserApp("Jean Francis","+45 876 575676"),101,"",date,true));
+    bills.add(Bill(UserApp("Jean Francis","+45 876 575676"),UserApp("Pierre","+5455754876"),15,"For the restaurant",date,true));
 
     List<SharedBillParticipant> participants = [];
     participants.add(SharedBillParticipant("Akash","+336 45 11 01 20",50,false));
