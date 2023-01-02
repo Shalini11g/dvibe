@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:bill_splitter/model/bill.dart';
-import 'package:bill_splitter/model/firebaseDatabase.dart';
+import 'package:bill_splitter/viewModel/firebaseDatabase.dart';
 import 'package:bill_splitter/model/transaction.dart';
 import 'package:bill_splitter/model/user.dart';
 import 'package:http/http.dart' as http;

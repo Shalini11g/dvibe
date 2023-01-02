@@ -9,8 +9,8 @@ import 'package:bill_splitter/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-import 'api.dart';
-import 'bill.dart';
+import '../model/api.dart';
+import '../model/bill.dart';
 
 class FirebaseDatabase{
   Api _api = new Api();

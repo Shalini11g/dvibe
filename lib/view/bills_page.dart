@@ -1,4 +1,4 @@
-import 'package:bill_splitter/model/firebaseDatabase.dart';
+import 'package:bill_splitter/viewModel/firebaseDatabase.dart';
 import 'package:bill_splitter/view/billDetail.dart';
 import 'package:flutter/material.dart';
 import '../model/bill.dart';
