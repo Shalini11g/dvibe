@@ -21,4 +21,7 @@ class strNumber{
     number = number.replaceAll(",", ".");
     return number;
   }
+  String formatNumber(String number){
+    return getRealPart(number)+getDecimalPart(number);
+  }
 }

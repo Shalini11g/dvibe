@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bill_splitter/view/sm_select_contact_view.dart';
 
-import 'package:bill_splitter/bills_page.dart';
+import 'package:bill_splitter/view/bills_page.dart';
 import 'package:bill_splitter/history_page.dart';
 
 class DashboardPage extends StatefulWidget {
