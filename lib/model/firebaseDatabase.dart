@@ -9,22 +9,27 @@ import 'package:bill_splitter/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
+import 'api.dart';
 import 'bill.dart';
 
 class FirebaseDatabase{
-  String firebaseUrl = "https://d-vibe-default-rtdb.europe-west1.firebasedatabase.app/";
+  Api _api = new Api();
   //create new transaction
   Future<bool> sendMoney(Transaction transaction) async {
-    transaction.id = await this.getTransactionId();
-    debugPrint(transaction.id.toString());
-    final http.Response response = await _createNewTransaction(transaction,"newTransaction.json"); //send transaction in new transaction
-    final http.Response response2 = await _updateCountTransaction(transaction.id+1);
-    final http.Response response3 = await _createNewTransaction(transaction,"users/"+transaction.from!.phoneNumber+"/transactions.json");//add transaction in history
+    transaction.id = await _api.getTransactionId();
+    debugPrint("transaction id "+transaction.id.toString());
+    final http.Response response = await _api.createNewTransaction(transaction,"newTransaction.json"); //send transaction in new transaction
+    final http.Response response2 = await _api.updateCountTransaction(transaction.id+1);
+    final http.Response response3 = await _api.createNewTransaction(transaction,"users/"+transaction.from!.phoneNumber+"/transactions.json");//add transaction in history
     return response2.statusCode == 200 && response.statusCode == 200 && response3.statusCode == 200;
   }
   //create new bill
-  void sendBill(Bill bill){
-
+  Future<http.Response> sendBill(Bill bill) async {
+    bill.id = await _api.getBillId();
+    debugPrint("bill id "+bill.id.toString());
+    final http.Response response = await _api.createNewBill(bill, "newBill.json");
+    final http.Response response2 = await _api.createNewBill(bill, "users/"+bill.from!.phoneNumber+"/bills.json");
+    return response;
   }
   //create new shared bill
   void sendSharedBill(SharedBill sharedBill){
@@ -83,46 +88,5 @@ class FirebaseDatabase{
 
     return bills;
   }
-  Future<int> getTransactionId() async {
-   var response = await http.get(Uri.parse('https://d-vibe-default-rtdb.europe-west1.firebasedatabase.app/countTransaction.json'));
-   return json.decode(response.body);
-  }
-  Future<http.Response> _createNewTransaction(Transaction transaction, String URL) async {
-    // first, we get the bill id
-    // but, because bill can be null, we need to check if bill exist
-    int billId = -1; //-1 mean that bill is null
-    if(transaction.bill != null){
-      billId = transaction.bill!.id;
-    }
-    //then we send a request
-   final http.Response response = await http.patch(
-     Uri.parse(this.firebaseUrl+URL),
-     headers: <String, String>{
-       'Content-Type': 'application/json; charset=UTF-8',
-     },
-     body: jsonEncode({
-       transaction.id.toString(): {
-         'amount': transaction.amount,
-         'billId': billId,
-         'comment': transaction.comment,
-         'from': transaction.from!.phoneNumber,
-         'to': transaction.to!.phoneNumber,
-         'timestamp': transaction.dateOfTransaction!.millisecondsSinceEpoch
-       }
-      }),
-   );
-   return response;
-  }
-  Future<http.Response> _updateCountTransaction(int newCount) async {
-    final http.Response response = await http.patch(
-      Uri.parse(this.firebaseUrl+".json"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
-        "countTransaction":newCount
-      }),
-    );
-    return response;
-  }
+
 }
