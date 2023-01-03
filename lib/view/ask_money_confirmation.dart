@@ -5,7 +5,7 @@ import 'package:bill_splitter/viewModel/firebaseDatabase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:bill_splitter/viewModel/contact.dart';
+import 'package:bill_splitter/viewModel/generate_simple_contact_list.dart';
 import 'package:bill_splitter/viewModel/sm_strNumber_operation.dart';
 
 import '../model/bill.dart';
@@ -84,7 +84,7 @@ class AskMoneyAskForConfirmation extends StatelessWidget{
                       if(success){
                         return SuccessPage("You successfully asking money");
                       }else{
-                        return FailPage("Fail to ask money\nCheck your network");
+                        return FailPage("  Fail to ask money\nCheck your network");
                       }
                     },
                   ));

@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 
-import '../viewModel/contact.dart';
+import '../viewModel/generate_simple_contact_list.dart';
 import '../viewModel/sm_amount_comment_vm.dart';
 
 class AskForMoneyForm extends StatefulWidget{

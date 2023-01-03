@@ -3,7 +3,7 @@ View to send money
 User need to put an amount of money and can add some comment
  */
 
-import 'package:bill_splitter/viewModel/contact.dart';
+import 'package:bill_splitter/viewModel/generate_simple_contact_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';

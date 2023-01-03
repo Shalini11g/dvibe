@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'dashboard_page.dart';
 
 class FailPage extends StatelessWidget{
-  String billOrTranser = "";
+  String message = "";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,7 +15,7 @@ class FailPage extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon( Icons.error_outline, size: 150,color: Colors.deepOrange,),
-                  Text("Your "+billOrTranser+" failed\nCheck your network",style: TextStyle(fontSize: 20),),
+                  Text(message,style: TextStyle(fontSize: 20),),
                   SizedBox(height: 20),
                   ElevatedButton(
                       onPressed: (){
@@ -40,7 +40,7 @@ class FailPage extends StatelessWidget{
         )
     );
   }
-  FailPage(String billOrTranser){
-    this.billOrTranser = billOrTranser;
+  FailPage(String message){
+    this.message = message;
   }
 }

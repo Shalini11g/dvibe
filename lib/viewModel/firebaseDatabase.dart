@@ -17,34 +17,62 @@ class FirebaseDatabase{
   Api _api = new Api();
   //create new transaction
   Future<bool> sendMoney(Transaction transaction) async {
-    String phoneNumber = await GetPhoneNumber().get();
-    debugPrint('getPhoneNumber result: $phoneNumber');
-    transaction.from!.phoneNumber = phoneNumber;
-    transaction.id = await _api.getTransactionId();
-    debugPrint("transaction id "+transaction.id.toString());
-    final http.Response response = await _api.createNewTransaction(transaction,"users/"+transaction.to!.phoneNumber+"/transactions.json"); //add transaction in contact transaction list
-    final http.Response response2 = await _api.updateCountTransaction(transaction.id+1);
-    final http.Response response3 = await _api.createNewTransaction(transaction,"users/"+transaction.from!.phoneNumber+"/transactions.json");//add transaction in history
-    return response2.statusCode == 200 && response.statusCode == 200 && response3.statusCode == 200;
+    try{
+      String phoneNumber = await GetPhoneNumber().get();
+      debugPrint('getPhoneNumber result: $phoneNumber');
+      transaction.from!.phoneNumber = phoneNumber;
+      transaction.id = await _api.getTransactionId();
+      debugPrint("transaction id "+transaction.id.toString());
+      final http.Response response = await _api.createNewTransaction(transaction,"users/"+transaction.to!.phoneNumber+"/transactions.json"); //add transaction in contact transaction list
+      final http.Response response2 = await _api.updateCountTransaction(transaction.id+1);
+      final http.Response response3 = await _api.createNewTransaction(transaction,"users/"+transaction.from!.phoneNumber+"/transactions.json");//add transaction in history
+      return response2.statusCode == 200 && response.statusCode == 200 && response3.statusCode == 200;
+    } catch(e){
+      return false;
+    }
   }
   //create new bill
   Future<bool> sendBill(Bill bill) async {
-    bill.id = await _api.getBillId();
-    debugPrint("bill id "+bill.id.toString());
-    final http.Response response = await _api.createNewBill(bill, "users/"+bill.to!.phoneNumber+"/bills.json");
-    final http.Response response2 = await _api.createNewBill(bill, "users/"+bill.from!.phoneNumber+"/bills.json");
-    final http.Response response3 = await _api.updateCountBill(bill.id+1);
-    return response2.statusCode == 200 && response.statusCode == 200 && response3.statusCode == 200;
+    try{
+      String phoneNumber = await GetPhoneNumber().get();
+      debugPrint('getPhoneNumber result: $phoneNumber');
+      bill.id = await _api.getBillId();
+      bill.from!.phoneNumber = phoneNumber;
+      debugPrint("bill id "+bill.id.toString());
+      final http.Response response = await _api.putBill(bill, "users/"+bill.to!.phoneNumber+"/bills.json");
+      final http.Response response2 = await _api.putBill(bill, "users/"+bill.from!.phoneNumber+"/bills.json");
+      final http.Response response3 = await _api.updateCountBill(bill.id+1);
+      return response2.statusCode == 200 && response.statusCode == 200 && response3.statusCode == 200;
+    } catch(e){
+      return false;
+    }
+  }
+  //send money + update some data
+  Future<bool> payBill(Bill bill) async{
+    Transaction transaction = Transaction(bill.from!, bill.to!, bill.amount, "reimbursement", DateTime.now());
+    sendMoney(transaction);
+    bill.isPay = true;
+    var response = _api.putBill(bill, "users/"+bill.to!.phoneNumber+"/bills.json");
+    return true;
   }
   //create new shared bill
-  void sendSharedBill(SharedBill sharedBill){
+  Future<bool> sendSharedBill(SharedBill sharedBill) async {
+   try{
+     String phoneNumber = await GetPhoneNumber().get();
+     sharedBill.from!.phoneNumber = phoneNumber;
+     sharedBill.id = await _api.getSharedBillId();
+     var response = await _api.putSharedBill(sharedBill);
+     var response2 = await _api.updateCountSharedBill(sharedBill.id+1);
 
+     return response.statusCode == 200 && response2.statusCode == 200;
+   } catch(e){
+     return false;
+   }
   }
-  // fake api
   // get all transaction for the current user
   Future<List<Transaction>> getTransactions() async {
     List<Transaction> transactions = [];
-    /*
+
     DateTime date = DateTime.now();
     transactions.add(Transaction(UserApp("Alex","+336 57 45 10 20"), UserApp("Bernard","+447 45 45 14 10"), 150, "Thank you", date));
     transactions.add(Transaction(UserApp("Akash","+336 45 11 01 20"), UserApp("Maurice","+447 86 54 24 75"), 50, "For the restaurant", date));
@@ -61,17 +89,8 @@ class FirebaseDatabase{
     participants.add(SharedBillParticipant("Louise","+33754562145",51,false));
     participants.add(SharedBillParticipant("Bernard","+33654756757",52,true));
     transactions[1].bill?.sharedBill = SharedBill(UserApp("Maurice","+447 86 54 24 75"), participants, "Don't forget for the restaurant");
-    */
-    transactions = await _api.fetchTransaction("phone%20number");
-    return transactions;
-  }
-  //fake api, usefull for notification
-  // get all new transaction for the current user
-  // When a user do a transaction, the transaction is haded to a newTransactionList
-  // That allow us to push new notification when we see a new transaction
-  // When the user is aware that a new transaction is done, this transaction is remove from the newTransactionList and add to the personnal transaction history
-  List<Transaction> getNewTransactions(){
-    List<Transaction> transactions = [];
+
+    //transactions = await _api.fetchTransaction("phone%20number");
     return transactions;
   }
 

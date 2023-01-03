@@ -6,6 +6,7 @@ class SharedBill{
   UserApp? from;
   List<SharedBillParticipant>? to;
   String comment = "";
+  int id = -1;
 
   SharedBill(UserApp from, List<SharedBillParticipant> to, String comment){
     this.from = from;

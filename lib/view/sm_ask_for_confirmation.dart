@@ -5,7 +5,7 @@ import 'package:bill_splitter/viewModel/firebaseDatabase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:bill_splitter/viewModel/contact.dart';
+import 'package:bill_splitter/viewModel/generate_simple_contact_list.dart';
 import 'package:bill_splitter/viewModel/sm_strNumber_operation.dart';
 
 import '../model/user.dart';
@@ -81,9 +81,9 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext) {
                       if(success){
-                        return SuccessPage("transfer");
+                        return SuccessPage("Your transfer is send");
                       }else{
-                        return FailPage("transfer");
+                        return FailPage("Your transfer is failed\nCheck you network");
                       }
                     },
                   ));

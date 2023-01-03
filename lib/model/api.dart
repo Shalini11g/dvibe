@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bill_splitter/model/sharedBill.dart';
 import 'package:bill_splitter/model/transaction.dart';
 import 'package:bill_splitter/model/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -68,7 +69,7 @@ class Api{
     );
     return response;
   }
-  Future<http.Response> createNewBill(Bill bill, String URL) async {
+  Future<http.Response> putBill(Bill bill, String URL) async {
 
     //then we send a request
     final http.Response response = await http.patch(
@@ -89,6 +90,7 @@ class Api{
     );
     return response;
   }
+
 
   Future<List<Transaction>> fetchTransaction(String phoneNumber) async {
     var response = await http.get(Uri.parse(this.firebaseUrl+'users/'+phoneNumber+'/transactions.json'));
@@ -124,5 +126,47 @@ class Api{
       DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(rawBill["timestamp"].toString()));
     });
     return allBill;
+  }
+  Future<http.Response> putSharedBill(SharedBill sharedBill) async {
+    //put the list of participant in Map, so that it became easy to add this list on the request
+    var participants = Map();
+    sharedBill.to!.forEach((participant) {
+      var map = {
+        'amount':participant.amount,
+        'hasPay':participant.hasPay
+      };
+      participants[participant.user!.phoneNumber] = map;
+    });
+    //then we send a request
+    final http.Response response = await http.patch(
+      Uri.parse(this.firebaseUrl+"/sharedBill.json"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        sharedBill.id.toString(): {
+          'from':sharedBill.from!.phoneNumber,
+          'comment':sharedBill.comment,
+          'to': participants,
+        }
+      }),
+    );
+    return response;
+  }
+  Future<int> getSharedBillId() async {
+    var response = await http.get(Uri.parse(this.firebaseUrl+'/countSharedBill.json'));
+    return json.decode(response.body);
+  }
+  Future<http.Response> updateCountSharedBill(int newCount) async {
+    final http.Response response = await http.patch(
+      Uri.parse(this.firebaseUrl+".json"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        "countSharedBill":newCount
+      }),
+    );
+    return response;
   }
 }
