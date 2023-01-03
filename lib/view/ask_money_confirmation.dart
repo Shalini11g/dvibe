@@ -8,10 +8,11 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:bill_splitter/viewModel/contact.dart';
 import 'package:bill_splitter/viewModel/sm_strNumber_operation.dart';
 
+import '../model/bill.dart';
 import '../model/user.dart';
 import 'dashboard_page.dart';
 
-class SendMoneyAskForConfirmation extends StatelessWidget{
+class AskMoneyAskForConfirmation extends StatelessWidget{
   String amountRealPart = "";
   String amountDecimalPart = "";
   String comment = "";
@@ -22,19 +23,19 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
     // TODO: implement build
     return MaterialApp(
         home: Scaffold(
-          appBar: AppBar(title: Text("Send money"),),
-          body: _body(context)
+            appBar: AppBar(title: Text("Ask money"),),
+            body: _body(context)
         )
     );
   }
-  
+
   Widget _body(BuildContext context){
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.file_upload, size: 50,),
+        Icon(Icons.file_download, size: 50,),
         SizedBox(height: 10),
-        Text("You will transfer", style: TextStyle(fontSize: 20, color: Colors.black87),),
+        Text("You will ask", style: TextStyle(fontSize: 20, color: Colors.black87),),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -43,7 +44,7 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
               children: [
                 SizedBox(height: 5),
                 Text(this.amountDecimalPart,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold))
-            ],)],
+              ],)],
         ),
         SizedBox(height: 5),
         Text("To", style: TextStyle(fontSize: 15,color: Colors.black87),),
@@ -55,8 +56,8 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              Text(contact!.displayName, style: TextStyle(fontSize: 20),),
-              Text(contact!.phones.first.number, style: TextStyle(fontSize: 15, color: Colors.grey),)],)
+                Text(contact!.displayName, style: TextStyle(fontSize: 20),),
+                Text(contact!.phones.first.number, style: TextStyle(fontSize: 15, color: Colors.grey),)],)
           ],
         ),
         SizedBox(height: 30),
@@ -76,25 +77,25 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
             ElevatedButton(
                 onPressed: () async {
                   FirebaseDatabase api = FirebaseDatabase();
-                  Transaction transaction = Transaction(UserApp("me","me"), UserApp("other",contact!.phones.first.number), amount, comment, DateTime.now());
-                  bool success = await api.sendMoney(transaction);
+                  Bill bill = Bill(UserApp("me","me"), UserApp("other",contact!.phones.first.number),amount,comment,DateTime.now(),false);
+                  bool success = await api.sendBill(bill);
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext) {
                       if(success){
-                        return SuccessPage("transfer");
+                        return SuccessPage("You successfully asking money");
                       }else{
-                        return FailPage("transfer");
+                        return FailPage("Fail to ask money\nCheck your network");
                       }
                     },
                   ));
                 },
                 child: Text("Confirm"))
           ],),
-          SizedBox(height: 40),
+        SizedBox(height: 40),
       ],
     );
   }
-  SendMoneyAskForConfirmation(String amount, Contact contact, String comment){
+  AskMoneyAskForConfirmation(String amount, Contact contact, String comment){
     this.comment = comment;
     this.contact = contact;
     //class who contain some logic use in this view

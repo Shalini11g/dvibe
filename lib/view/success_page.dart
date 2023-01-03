@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'dashboard_page.dart';
 
 class SuccessPage extends StatelessWidget{
-  String billOrTranser = "";
+  String message = "";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,7 +15,7 @@ class SuccessPage extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon( Icons.done_all, size: 150,color: Colors.green,),
-              Text("Your "+billOrTranser+" is succesfully sent",style: TextStyle(fontSize: 20),),
+              Text(message,style: TextStyle(fontSize: 20),),
               SizedBox(height: 20),
               ElevatedButton(
                   onPressed: (){
@@ -34,7 +34,7 @@ class SuccessPage extends StatelessWidget{
       )
     );
   }
-  SuccessPage(String billOrTranser){
-    this.billOrTranser = billOrTranser;
+  SuccessPage(String message){
+    this.message = message;
   }
 }

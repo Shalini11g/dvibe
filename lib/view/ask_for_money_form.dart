@@ -1,8 +1,10 @@
+import 'package:bill_splitter/view/ask_money_confirmation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 
 import '../viewModel/contact.dart';
+import '../viewModel/sm_amount_comment_vm.dart';
 
 class AskForMoneyForm extends StatefulWidget{
   Contact? contact;
@@ -76,7 +78,22 @@ class AskForMoneyFormState extends State<AskForMoneyForm>{
             ),
             ElevatedButton(
               onPressed: (){
-
+                SendMoneyformController testForm = SendMoneyformController(
+                    inputAmountOfMoneyToSend.text,
+                    inputCommentWithMoneySend.text);
+                if (testForm.isOk) {
+                  debugPrint("Test passed");
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext) {
+                      return AskMoneyAskForConfirmation(
+                          inputAmountOfMoneyToSend.text, this._contact,inputCommentWithMoneySend.text);
+                    },
+                  ));
+                } else {
+                  debugPrint("Invalid value");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: const Text('Macron explosion')));
+                }
               },
               child: const Text("Ask money"),
             ),

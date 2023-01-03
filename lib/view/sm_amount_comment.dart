@@ -97,7 +97,7 @@ class SendMoneyAmountCommentState extends State<SendMoneyAmountComment> {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext) {
                       return SendMoneyAskForConfirmation(
-                          inputAmountOfMoneyToSend.text, this._contact);
+                          inputAmountOfMoneyToSend.text, this._contact,inputCommentWithMoneySend.text);
                     },
                   ));
                 } else {
