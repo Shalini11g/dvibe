@@ -17,9 +17,11 @@ Future<void> main() async {
   DateTime date = DateTime.now();
   //Transaction transaction = new Transaction(UserApp("Alex","phone number"), UserApp("Jean","+5425454214"), 50, "comment", date);
   //print(await FirebaseDatabase().sendMoney(transaction));
-  Bill bill = new Bill(UserApp("Bernard","phone number"),UserApp("Patrice","+5456457454754"),405.10,"hello world",date,false);
-  print(await FirebaseDatabase().sendBill(bill));
-
+  //Bill bill = new Bill(UserApp("Bernard","phone number"),UserApp("Patrice","+5456457454754"),405.10,"hello world",date,false);
+  const timestamp2 = 1628528400;
+  final DateTime date2 = DateTime.fromMillisecondsSinceEpoch(1628528400000);
+  print(date2);
+  print(date.millisecondsSinceEpoch);
 
 
 }

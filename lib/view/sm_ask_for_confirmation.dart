@@ -1,3 +1,5 @@
+import 'package:bill_splitter/view/fail_page.dart';
+import 'package:bill_splitter/view/success_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
@@ -68,7 +70,11 @@ class SendMoneyAskForConfirmation extends StatelessWidget{
             SizedBox(width: 10),
             ElevatedButton(
                 onPressed: (){
-                  debugPrint("Confirm");
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext) {
+                      return SuccessPage("transfer");
+                    },
+                  ));
                 },
                 child: Text("Confirm"))
           ],),

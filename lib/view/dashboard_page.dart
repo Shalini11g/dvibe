@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bill_splitter/view/sm_select_contact_view.dart';
 
 import 'package:bill_splitter/view/bills_page.dart';
-import 'package:bill_splitter/history_page.dart';
+import 'package:bill_splitter/view/history_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -28,7 +28,15 @@ class _DashboardPageState extends State<DashboardPage> {
         actions: [
           IconButton(
             onPressed: () {
-              debugPrint('Profile clicked');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
+                  builder: (BuildContext) {
+                    return ChooseActionAfterPushThePlusButton();
+                    //return SendMoneySelectContact(context).view();
+                  },
+                ),
+              );
             },
             icon: const Icon(Icons.account_circle_sharp),
           ),
