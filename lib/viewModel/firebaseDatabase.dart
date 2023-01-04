@@ -123,10 +123,10 @@ class FirebaseDatabase{
         transactions[i].from!.name = await ContactTool().getContactName(transactions[i].from!.phoneNumber);
         transactions[i].to!.name = await ContactTool().getContactName(transactions[i].to!.phoneNumber);
       }
-      return transactions;
+      return new List.from(transactions.reversed);
     }catch(e){
       print(e);
-      return new List.from(transactions.reversed);
+      return transactions;
     }
   }
 
@@ -154,11 +154,11 @@ class FirebaseDatabase{
         bills[i].from!.name = await ContactTool().getContactName(bills[i].from!.phoneNumber);
         bills[i].to!.name = await ContactTool().getContactName(bills[i].to!.phoneNumber);
       }
-      return bills;
+      return new List.from(bills.reversed);
     }
     catch(e){
       print(e);
-      return new List.from(bills.reversed);
+      return bills;
     }
   }
 
