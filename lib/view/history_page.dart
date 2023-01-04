@@ -6,6 +6,7 @@ import 'package:get_phone_number/get_phone_number.dart';
 import '../model/transaction.dart';
 import '../model/user.dart';
 import '../viewModel/checkPhoneNumber.dart';
+import '../viewModel/strNumber.dart';
 
 
 class HistoryPage extends StatefulWidget {
@@ -69,7 +70,13 @@ class _HistoryPageState extends State<HistoryPage> {
         children: <Widget>[
           ListTile(
             leading: sendOrReceive(iMustSendMoney),
-            title: Text(other.name),
+            title: Row(
+              children: [
+                Text(other.name),
+                Expanded(child: Text("")),
+                Text(strNumber().formatNumber(transaction.amount.toStringAsFixed(2)), style: TextStyle(fontWeight: FontWeight.bold),)
+              ],//
+            ),
             subtitle: Text(comment),
           ),
           Row(

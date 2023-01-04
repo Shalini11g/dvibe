@@ -74,7 +74,13 @@ class BillsPageState extends State<BillsPage> {
         children: <Widget>[
           ListTile(
             leading: sendOrReceive(iMustSendMoney),
-            title: Text(other.name),
+            title: Row(
+              children: [
+                Text(other.name),
+                Expanded(child: Text("")),
+                Text(strNumber().formatNumber(bill.amount.toStringAsFixed(2)), style: TextStyle(fontWeight: FontWeight.bold),)
+              ],//
+            ),
             subtitle: Text(comment),
           ),
           Row(
