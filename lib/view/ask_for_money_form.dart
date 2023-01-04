@@ -21,6 +21,8 @@ class AskForMoneyFormState extends State<AskForMoneyForm>{
   Contact _contact = new Contact();
   TextEditingController inputAmountOfMoneyToSend = TextEditingController();
   TextEditingController inputCommentWithMoneySend = TextEditingController();
+  String comment ="";
+  String amount = "";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,6 +36,8 @@ class AskForMoneyFormState extends State<AskForMoneyForm>{
   }
 
   Widget _body(){
+    inputCommentWithMoneySend.text = comment;
+    inputAmountOfMoneyToSend.text = amount;
     return Container(
       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Form(
@@ -53,6 +57,11 @@ class AskForMoneyFormState extends State<AskForMoneyForm>{
                 Text("Amount:", style: TextStyle(fontSize: 20),),
                 SizedBox(height: 10),
                 TextFormField(
+                  onEditingComplete: (){
+                    amount = inputAmountOfMoneyToSend.text;
+                    FocusScopeNode currentFocus = FocusScope.of(context);
+                    currentFocus.unfocus();
+                  },
                   controller: inputAmountOfMoneyToSend,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
@@ -64,6 +73,11 @@ class AskForMoneyFormState extends State<AskForMoneyForm>{
                 Text("Message:",style: TextStyle(fontSize: 20)),
                 SizedBox(height: 10),
                 TextField(
+                  onEditingComplete: (){
+                    comment = inputCommentWithMoneySend.text;
+                    FocusScopeNode currentFocus = FocusScope.of(context);
+                    currentFocus.unfocus();
+                  },
                   controller: inputCommentWithMoneySend,
                   keyboardType: TextInputType.multiline,
                   maxLength: 512,
@@ -77,24 +91,16 @@ class AskForMoneyFormState extends State<AskForMoneyForm>{
               ],
             ),
             ElevatedButton(
-              onPressed: (){
-                SendMoneyformController testForm = SendMoneyformController(
-                    inputAmountOfMoneyToSend.text,
-                    inputCommentWithMoneySend.text);
-                if (testForm.isOk) {
-                  debugPrint("Test passed");
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext) {
-                      return AskMoneyAskForConfirmation(
-                          inputAmountOfMoneyToSend.text, this._contact,inputCommentWithMoneySend.text);
-                    },
-                  ));
-                } else {
-                  debugPrint("Invalid value");
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: const Text('Macron explosion')));
-                }
-              },
+              onPressed:(isOk())?(){
+                debugPrint("Test passed");
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext) {
+                    return AskMoneyAskForConfirmation(
+                        inputAmountOfMoneyToSend.text, this._contact,inputCommentWithMoneySend.text);
+                  },
+                ));
+              }
+                  :null,
               child: const Text("Ask money"),
             ),
             SizedBox(height: 20),
@@ -105,6 +111,9 @@ class AskForMoneyFormState extends State<AskForMoneyForm>{
   }
   AskForMoneyFormState(Contact contact){
     this._contact = contact;
+  }
+  bool isOk(){
+    return SendMoneyformController(inputAmountOfMoneyToSend.text,inputCommentWithMoneySend.text).isOk;
   }
 
 }
