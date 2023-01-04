@@ -40,6 +40,8 @@ dependencies:
   firebase_auth: ^4.2.1
   firebase_database: ^10.0.9
   cloud_firestore: ^4.3.1
+  pay: ^1.0.11
+  flutter_speed_dial: ^6.2.0
 
 
   # do request
