@@ -169,4 +169,16 @@ class Api{
     );
     return response;
   }
+  Future<http.Response> paySharedBill(int sharedBillId, String phoneNumber) async {
+    final http.Response response = await http.patch(
+      Uri.parse(this.firebaseUrl+"/sharedBill/"+sharedBillId.toString()+"/to/"+phoneNumber+".json"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        "hasPay":true
+      }),
+    );
+    return response;
+  }
 }

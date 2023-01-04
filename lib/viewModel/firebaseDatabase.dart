@@ -49,11 +49,21 @@ class FirebaseDatabase{
   }
   //send money + update some data
   Future<bool> payBill(Bill bill) async{
-    Transaction transaction = Transaction(bill.from!, bill.to!, bill.amount, "reimbursement", DateTime.now());
-    sendMoney(transaction);
-    bill.isPay = true;
-    var response = _api.putBill(bill, "users/"+bill.to!.phoneNumber+"/bills.json");
-    return true;
+    try{
+      String phoneNumber = await GetPhoneNumber().get();
+      Transaction transaction = Transaction(bill.from!, bill.to!, bill.amount, "reimbursement", DateTime.now());
+      sendMoney(transaction);
+      bill.isPay = true;
+      var response = await _api.putBill(bill, "users/"+bill.to!.phoneNumber+"/bills.json");
+      bool sharedBillIsOk = true;
+      if(bill.isSharedBill()){
+        var response2 = await _api.paySharedBill(bill.sharedBill!.id, phoneNumber);
+        sharedBillIsOk  = (response2.statusCode == 200);
+      }
+      return sharedBillIsOk && response.statusCode == 200;
+    } catch(e){
+      return false;
+    }
   }
   //create new shared bill
   Future<bool> sendSharedBill(SharedBill sharedBill) async {
