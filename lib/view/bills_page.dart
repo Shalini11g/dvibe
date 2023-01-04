@@ -92,7 +92,7 @@ class BillsPageState extends State<BillsPage> {
   }
 
   Icon sendOrReceive(bool iMustSendMoney) {
-    if (iMustSendMoney) {
+    if (!iMustSendMoney) {
       return Icon(Icons.file_open, );
     }
     return Icon(Icons.file_copy, );

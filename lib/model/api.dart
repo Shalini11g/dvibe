@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bill_splitter/model/sharedBill.dart';
+import 'package:bill_splitter/model/sharedBillParticipant.dart';
 import 'package:bill_splitter/model/transaction.dart';
 import 'package:bill_splitter/model/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -86,7 +87,7 @@ class Api{
           'comment':bill.comment,
           'isPay':bill.isPay,
           'timestamp':bill.dateOfCreation!.millisecondsSinceEpoch,
-          'sharedbillid':-1
+          'sharedbillid':(bill.isSharedBill())?bill.sharedBill!.id:-1,
         }
       }),
     );
@@ -126,6 +127,11 @@ class Api{
           //final DateTime date = DateTime.fromMicrosecondsSinceEpoch(int.parse(rawTransaction["timestamp"].toString()));
           final DateTime date = DateTime.fromMillisecondsSinceEpoch(1672736467481);
           Transaction transaction = Transaction(from, to, amount, comment, date);
+          if(rawTransaction["billId"] != -1){
+            Bill bill = Bill(to,from,amount,comment,date,true); //Unfortunately, we don't fetch real bill data :(
+            bill.id = rawTransaction["billId"];
+            transaction.bill = bill;
+          }
           allTransaction.add(transaction);
         }
       });
@@ -149,7 +155,14 @@ class Api{
           String comment = rawBill["comment"].toString();
           bool isPay = rawBill["isPay"];
           DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(rawBill["timestamp"].toString()));
-          allBill.add(Bill(from,to,amount,comment,date,isPay));
+          Bill bill = Bill(from,to,amount,comment,date,isPay);
+          if(rawBill["sharedbillid"] != -1){
+            List<SharedBillParticipant> to = [];
+            to.add(SharedBillParticipant("","",0,false)); //Unfortunately, we don't fetch sharedBill data :(
+            bill.sharedBill = SharedBill(from, to, comment);
+            bill.sharedBill!.id = rawBill["sharedbillid"];
+          }
+          allBill.add(bill);
         }
       });
     }else{
@@ -161,11 +174,17 @@ class Api{
           String comment = rawBill["comment"].toString();
           bool isPay = rawBill["isPay"];
           DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(rawBill["timestamp"].toString()));
-          allBill.add(Bill(from,to,amount,comment,date,isPay));
+          Bill bill = Bill(from,to,amount,comment,date,isPay);
+          if(rawBill["sharedbillid"] != -1){
+            List<SharedBillParticipant> to = [];
+            to.add(SharedBillParticipant("","",0,false)); //Unfortunately, we don't fetch sharedBill data :(
+            bill.sharedBill = SharedBill(from, to, comment);
+            bill.sharedBill!.id = rawBill["sharedbillid"];
+          }
+          allBill.add(bill);
         }
       });
     }
-
 
     return allBill;
   }
