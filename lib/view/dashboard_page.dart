@@ -4,6 +4,7 @@ import 'package:bill_splitter/view/sm_select_contact_view.dart';
 
 import 'package:bill_splitter/view/bills_page.dart';
 import 'package:bill_splitter/view/history_page.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -43,20 +44,52 @@ class _DashboardPageState extends State<DashboardPage> {
         ],
       ),
       body: screens[currentPage],
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            debugPrint('Add bill button clicked');
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
-                builder: (BuildContext) {
-                  return ChooseActionAfterPushThePlusButton();
-                  //return SendMoneySelectContact(context).view();
-                },
-              ),
-            );
-          },
-          child: const Icon(Icons.add)),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.4,
+        children: [
+          SpeedDialChild(
+            // child: Icon(Icons.mail),
+            label: 'Send Money',
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const BillsPage()));
+            },
+          ),
+          SpeedDialChild(
+            // child: Icon(Icons.mail),
+            label: 'Request Money',
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const BillsPage()));
+            },
+          ),
+          SpeedDialChild(
+            // child: Icon(Icons.mail),
+            label: 'Add Bill',
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const BillsPage()));
+            },
+          ),
+        ],
+      ),
+
+      // floatingActionButton: FloatingActionButton(
+      //     onPressed: () {
+      //       debugPrint('Add bill button clicked');
+      //       Navigator.of(context).push(
+      //         MaterialPageRoute(
+      //           // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
+      //           builder: (BuildContext) {
+      //             return ChooseActionAfterPushThePlusButton();
+      //             //return SendMoneySelectContact(context).view();
+      //           },
+      //         ),
+      //       );
+      //     },
+      //     child: const Icon(Icons.add)),
       // Bottom Navbar
       bottomNavigationBar: NavigationBar(
         destinations: const [
