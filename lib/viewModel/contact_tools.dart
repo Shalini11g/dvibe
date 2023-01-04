@@ -6,7 +6,7 @@ class ContactTool{
   Future<String> getContactName(String phoneNumber) async {
     phoneNumber = PhoneChecker().formatPhoneNumber(phoneNumber);
     String userPhoneNumber = await GetPhoneNumber().get();
-    userPhoneNumber = PhoneChecker().formatPhoneNumber(phoneNumber);
+    userPhoneNumber = PhoneChecker().formatPhoneNumber(userPhoneNumber);
     if(phoneNumber == userPhoneNumber){
       return "You";
     }

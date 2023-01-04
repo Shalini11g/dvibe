@@ -1,7 +1,9 @@
 import 'package:bill_splitter/model/user.dart';
+import 'package:bill_splitter/viewModel/checkPhoneNumber.dart';
 import 'package:bill_splitter/viewModel/firebaseDatabase.dart';
 import 'package:bill_splitter/view/bill_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:get_phone_number/get_phone_number.dart';
 import '../model/bill.dart';
 import '../viewModel/strNumber.dart';
 
@@ -16,6 +18,7 @@ class BillsPage extends StatefulWidget{
 class BillsPageState extends State<BillsPage> {
   @override
   List<Bill>? _billList;
+  String phoneNumber = "";
 
   @override
   void initState() {
@@ -24,6 +27,8 @@ class BillsPageState extends State<BillsPage> {
   }
 
   Future _fetchData() async {
+    phoneNumber = await GetPhoneNumber().get();
+    phoneNumber = PhoneChecker().formatPhoneNumber(phoneNumber);
     FirebaseDatabase api = new FirebaseDatabase();
     final usersBill = await api.getBills();
     setState(() => _billList = usersBill);
@@ -51,11 +56,9 @@ class BillsPageState extends State<BillsPage> {
   }
 
   Widget _renderOneBill(Bill bill) {
-    String fromOrTo = "from";
+    bool iMustSendMoney = phoneNumber == PhoneChecker().formatPhoneNumber(bill.from!.phoneNumber);
     UserApp other = bill.from!;
-    bool iMustSendMoney = "+45 876 575676" != bill.from!.phoneNumber;
-    if (!iMustSendMoney) {
-      fromOrTo = "to";
+    if (iMustSendMoney) {
       other = bill.to!;
     }
     String comment = bill.comment;
