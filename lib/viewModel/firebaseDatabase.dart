@@ -36,17 +36,40 @@ class FirebaseDatabase{
   //create new bill
   Future<bool> sendBill(Bill bill) async {
     try{
-      //String phoneNumber = await GetPhoneNumber().get();
+      String phoneNumber = await GetPhoneNumber().get();
       bill.id = await _api.getBillId();
       print(bill.id);
-      //bill.from!.phoneNumber = phoneNumber;
+      bill.from!.phoneNumber = phoneNumber;
       bill.to!.phoneNumber = PhoneChecker().formatPhoneNumber(bill.to!.phoneNumber);
-      bill.from!.phoneNumber = "phonenumber";
       print(bill.from!.phoneNumber);
       final http.Response response = await _api.putBill(bill, "users/"+bill.to!.phoneNumber+"/bills.json");
-      final http.Response response2 = await _api.putBill(bill, "users/"+bill.from!.phoneNumber+"/bills.json");
+      if(!bill.isSharedBill()){
+        final http.Response response2 = await _api.putBill(bill, "users/"+bill.from!.phoneNumber+"/bills.json");
+      }
       final http.Response response3 = await _api.updateCountBill(bill.id+1);
-      return response2.statusCode == 200 && response.statusCode == 200 && response3.statusCode == 200;
+      return response.statusCode == 200 && response3.statusCode == 200;
+      //response2.statusCode == 200 &&
+    } catch(e){
+      return false;
+    }
+  }
+  //create new shared bill
+  Future<bool> sendSharedBill(SharedBill sharedBill) async {
+    try{
+      String phoneNumber = await GetPhoneNumber().get();
+      sharedBill.from!.phoneNumber = phoneNumber;
+      sharedBill.id = await _api.getSharedBillId();
+      var response = await _api.putSharedBill(sharedBill);
+      var response2 = await _api.updateCountSharedBill(sharedBill.id+1);
+      bool isSend = true;
+      await Future.forEach(sharedBill.to!, (participant) async {
+        Bill bill = Bill(sharedBill.from!,participant.user!,participant.amount,sharedBill.comment,DateTime.now(),participant.hasPay);
+        bill.sharedBill = sharedBill;
+        bool isOk = await sendBill(bill);
+        print(isOk.toString());
+        isSend = isSend && isOk;
+      });
+      return isSend && response.statusCode == 200 && response2.statusCode == 200;
     } catch(e){
       return false;
     }
@@ -69,26 +92,7 @@ class FirebaseDatabase{
       return false;
     }
   }
-  //create new shared bill
-  Future<bool> sendSharedBill(SharedBill sharedBill) async {
-   try{
-     String phoneNumber = await GetPhoneNumber().get();
-     sharedBill.from!.phoneNumber = phoneNumber;
-     sharedBill.id = await _api.getSharedBillId();
-     var response = await _api.putSharedBill(sharedBill);
-     var response2 = await _api.updateCountSharedBill(sharedBill.id+1);
-     bool isSend = true;
-     Future.forEach(sharedBill.to!, (participant) async {
-       Bill bill = Bill(sharedBill.from!,participant.user!,participant.amount,sharedBill.comment,DateTime.now(),participant.hasPay);
-       bill.sharedBill = sharedBill;
-       bool isOk = await sendBill(bill);
-       isSend = isSend && isOk;
-     });
-     return isSend && response.statusCode == 200 && response2.statusCode == 200;
-   } catch(e){
-     return false;
-   }
-  }
+
   // get all transaction for the current user
   Future<List<Transaction>> getTransactions() async {
     List<Transaction> transactions = [];

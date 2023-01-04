@@ -1,7 +1,8 @@
+import 'package:bill_splitter/view/ask_money_select_contact.dart';
 import 'package:bill_splitter/view/chooseActionAfterPushThePlusButton.dart';
-import 'package:flutter/material.dart';
+import 'package:bill_splitter/view/shared_bill_select_contact.dart';
 import 'package:bill_splitter/view/sm_select_contact_view.dart';
-
+import 'package:flutter/material.dart';
 import 'package:bill_splitter/view/bills_page.dart';
 import 'package:bill_splitter/view/history_page.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -53,24 +54,33 @@ class _DashboardPageState extends State<DashboardPage> {
             // child: Icon(Icons.mail),
             label: 'Send Money',
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const BillsPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext) {
+                  return SendMoneySelectContact(context).view();
+                },
+              ));
             },
           ),
           SpeedDialChild(
             // child: Icon(Icons.mail),
             label: 'Request Money',
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const BillsPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext) {
+                  return AskMoneySelectContact(context).view();
+                },
+              ));
             },
           ),
           SpeedDialChild(
             // child: Icon(Icons.mail),
-            label: 'Add Bill',
+            label: 'Split Bill',
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const BillsPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext) {
+                  return SharedBillSelectContact();
+                },
+              ));
             },
           ),
         ],
