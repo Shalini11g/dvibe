@@ -1,4 +1,6 @@
 import 'dart:typed_data';
+import 'package:bill_splitter/view/fail_page.dart';
+import 'package:bill_splitter/viewModel/checkPhoneNumber.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter/material.dart';
 
@@ -81,8 +83,17 @@ class ListContactState extends State<ListContact> {
         itemBuilder: (context, i) => ListTile(
           title: _drawOneContact(_phoneContact![i]),
           onTap: (){
-            actionDoToWhenAContactIsTap!(_phoneContact![i]);
-
+            if(PhoneChecker.checkOne(_phoneContact![i].phones.first.number).isOk){
+              actionDoToWhenAContactIsTap!(_phoneContact![i]);
+            }else{
+              Navigator.of(context!).push(
+                MaterialPageRoute(
+                  builder: (BuildContext) {
+                    return FailPage("This contact is incorrect number\n    Please, add the country code");
+                  },
+                ),
+              );
+            }
           },
 
         ));
