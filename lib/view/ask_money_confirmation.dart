@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:bill_splitter/viewModel/generate_simple_contact_list.dart';
-import 'package:bill_splitter/viewModel/sm_strNumber_operation.dart';
+import 'package:bill_splitter/viewModel/strNumber.dart';
 
 import '../model/bill.dart';
 import '../model/user.dart';
@@ -99,7 +99,7 @@ class AskMoneyAskForConfirmation extends StatelessWidget{
     this.comment = comment;
     this.contact = contact;
     //class who contain some logic use in this view
-    strNumber formating = new strNumber(); //from viewModel/sm_strNumber_operation.dart
+    strNumber formating = new strNumber(); //from viewModel/strNumber.dart
     amount = formating.cleanNumber(amount);
     this.amount = double.parse(amount);
     //look like "$1,"

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../model/bill.dart';
-import '../viewModel/sm_strNumber_operation.dart';
+import '../viewModel/strNumber.dart';
 
 class BillDetailPage extends StatelessWidget{
   Bill? bill;

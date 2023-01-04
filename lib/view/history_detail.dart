@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../model/bill.dart';
 import '../model/transaction.dart';
-import '../viewModel/sm_strNumber_operation.dart';
+import '../viewModel/strNumber.dart';
 
 class TransactionDetailPage extends StatelessWidget{
   Transaction? transaction;

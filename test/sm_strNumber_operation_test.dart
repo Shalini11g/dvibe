@@ -1,4 +1,4 @@
-import 'package:bill_splitter/viewModel/sm_strNumber_operation.dart';
+import 'package:bill_splitter/viewModel/strNumber.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main(){

@@ -1,4 +1,7 @@
+import 'package:bill_splitter/view/shared_bill_confirmation.dart';
 import 'package:bill_splitter/viewModel/generate_simple_contact_list.dart';
+import 'package:bill_splitter/viewModel/sm_amount_comment_vm.dart';
+import 'package:bill_splitter/viewModel/strNumber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
@@ -20,6 +23,7 @@ class SharedBillFormState extends State<SharedBillForm>{
   List<Contact> contactList = [];
   String totalAmountInput = "";
   var amountController = TextEditingController();
+  var commentController = TextEditingController();
 
   SharedBillFormState(List<Contact> contactList){
     this.contactList = contactList;
@@ -59,8 +63,12 @@ class SharedBillFormState extends State<SharedBillForm>{
               hintText: "in dollars \$", border: OutlineInputBorder()),
           onEditingComplete: (){
             setState(() {
-              this.totalAmountInput = amountController.text;
-              updateRepartition(double.parse(amountController.text));
+              //this controller work well for this form
+              bool isOk = SendMoneyformController(amountController.text,"").isOk;
+              if(isOk){
+                this.totalAmountInput = amountController.text;
+                updateRepartition(double.parse(amountController.text));
+              }
             });
             FocusScopeNode currentFocus = FocusScope.of(context);
             currentFocus.unfocus();
@@ -70,6 +78,7 @@ class SharedBillFormState extends State<SharedBillForm>{
         Text("Message:", style: TextStyle(fontSize: 20)),
         SizedBox(height: 10),
         TextField(
+          controller: commentController,
           keyboardType: TextInputType.multiline,
           maxLength: 512,
           maxLines: 5,
@@ -90,9 +99,19 @@ class SharedBillFormState extends State<SharedBillForm>{
 
             )),
         SizedBox(height: 20),
-        ElevatedButton(onPressed: (){
-
-        }, child: Text("Share bill")),
+        ElevatedButton(onPressed:allValueAreOk()?
+        (){
+          Navigator.of(context).push(
+              MaterialPageRoute(
+                // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
+                builder: (BuildContext) {
+                  return SharedBillConfirmationPage(contactList, personalAmount,strNumber().cleanNumber(amountController.text));
+                  //return SendMoneySelectContact(context).view();
+                },
+              ));
+        }
+            :null,
+            child: Text("Share bill")),
         SizedBox(height: 20),
 
       ],
@@ -119,8 +138,12 @@ class SharedBillFormState extends State<SharedBillForm>{
                 border: InputBorder.none),
               onEditingComplete: (){
                 setState(() {
-                  personalAmount[index] = double.parse(inputController.text);
-                  updateTotalRepartition();
+                  //this controller work well for this form
+                  bool isOk = SendMoneyformController(inputController.text,"").isOk;
+                  if(isOk){
+                    personalAmount[index] = double.parse(inputController.text);
+                    updateTotalRepartition();
+                  }
                 });
                 FocusScopeNode currentFocus = FocusScope.of(context);
                 currentFocus.unfocus();
@@ -179,6 +202,15 @@ class SharedBillFormState extends State<SharedBillForm>{
     debugPrint("total amount"+ amount.toString());
     //this is the amount in Total amount field
     this.totalAmountInput = amount.toStringAsFixed(2);
+  }
+
+  bool allValueAreOk(){
+    try{
+      bool isOk = SendMoneyformController(amountController.text, commentController.text).isOk;
+      return isOk;
+    }catch(e){
+      return false;
+    }
   }
 
 

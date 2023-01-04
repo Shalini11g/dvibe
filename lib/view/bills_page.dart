@@ -3,7 +3,7 @@ import 'package:bill_splitter/viewModel/firebaseDatabase.dart';
 import 'package:bill_splitter/view/bill_detail.dart';
 import 'package:flutter/material.dart';
 import '../model/bill.dart';
-import '../viewModel/sm_strNumber_operation.dart';
+import '../viewModel/strNumber.dart';
 
 class BillsPage extends StatefulWidget{
   @override
