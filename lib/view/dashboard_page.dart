@@ -1,5 +1,6 @@
 import 'package:bill_splitter/view/ask_money_select_contact.dart';
 import 'package:bill_splitter/view/chooseActionAfterPushThePlusButton.dart';
+import 'package:bill_splitter/view/profile_page.dart';
 import 'package:bill_splitter/view/shared_bill_select_contact.dart';
 import 'package:bill_splitter/view/sm_select_contact_view.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 MaterialPageRoute(
                   // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
                   builder: (BuildContext) {
-                    return ChooseActionAfterPushThePlusButton();
+                    return ProfilePage();
                     //return SendMoneySelectContact(context).view();
                   },
                 ),

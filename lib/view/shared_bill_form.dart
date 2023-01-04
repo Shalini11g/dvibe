@@ -22,6 +22,7 @@ class SharedBillFormState extends State<SharedBillForm>{
   List<double> personalAmount = [];
   List<Contact> contactList = [];
   String totalAmountInput = "";
+  String phoneNumber = "";
   var amountController = TextEditingController();
   var commentController = TextEditingController();
 
@@ -109,7 +110,7 @@ class SharedBillFormState extends State<SharedBillForm>{
                   MaterialPageRoute(
                     // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
                     builder: (BuildContext) {
-                      return SharedBillConfirmationPage(contactList, personalAmount,strNumber().cleanNumber(amountController.text));
+                      return SharedBillConfirmationPage(contactList, personalAmount,strNumber().cleanNumber(amountController.text),commentController.text);
                       //return SendMoneySelectContact(context).view();
                     },
                   ));

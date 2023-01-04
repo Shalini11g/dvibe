@@ -1,8 +1,14 @@
+import 'package:bill_splitter/model/sharedBill.dart';
+import 'package:bill_splitter/model/sharedBillParticipant.dart';
+import 'package:bill_splitter/model/user.dart';
 import 'package:bill_splitter/view/success_page.dart';
+import 'package:bill_splitter/viewModel/checkPhoneNumber.dart';
+import 'package:bill_splitter/viewModel/firebaseDatabase.dart';
 import 'package:bill_splitter/viewModel/strNumber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
+import 'package:get_phone_number/get_phone_number.dart';
 
 import '../viewModel/generate_simple_contact_list.dart';
 import 'dashboard_page.dart';
@@ -14,6 +20,8 @@ class SharedBillConfirmationPage extends StatelessWidget{
   String totalAmount = "";
   String amountRealPart ="";
   String amountDecimalPart = "";
+  String comment = "";
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -67,7 +75,8 @@ class SharedBillConfirmationPage extends StatelessWidget{
             SizedBox(width: 10),
             ElevatedButton(
                 onPressed: () async {
-                  bool success = true;
+
+                  bool success = await _sendSharedBill();
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext) {
                       if(success){
@@ -129,15 +138,30 @@ class SharedBillConfirmationPage extends StatelessWidget{
       ],
     );
   }
-  SharedBillConfirmationPage(List<Contact> contactList,List<double> personalAmount,String totalAmount){
+  SharedBillConfirmationPage(List<Contact> contactList,List<double> personalAmount,String totalAmount,String comment){
     this.contactList = contactList;
     this.totalAmount = totalAmount;
     this.personalAmount = personalAmount;
+    this.comment = comment;
 
     this.amountRealPart = strNumber().getRealPart(totalAmount);
     this.amountDecimalPart = strNumber().getDecimalPart(totalAmount);
 
+  }
+  Future<bool> _sendSharedBill() async {
+    String phoneNumber = await GetPhoneNumber().get();
 
+    List<SharedBillParticipant> participants= [];
+    participants.add(SharedBillParticipant(phoneNumber, phoneNumber, personalAmount[0], true));
+
+    int i = 1; //to get personnal amount, this index should begin with one. Because the first value is reserved to the user "You"
+    contactList.forEach((contact) {
+      participants.add(SharedBillParticipant("", PhoneChecker().formatPhoneNumber(contact.phones.first.number), personalAmount[i], false));
+      i++;
+    });
+    print(phoneNumber);
+    SharedBill sharedBill = SharedBill(UserApp("me","me"), participants, comment);
+    return FirebaseDatabase().sendSharedBill(sharedBill);
   }
 
 }

@@ -126,7 +126,7 @@ class FirebaseDatabase{
       return transactions;
     }catch(e){
       print(e);
-      return transactions;
+      return new List.from(transactions.reversed);
     }
   }
 
@@ -158,7 +158,7 @@ class FirebaseDatabase{
     }
     catch(e){
       print(e);
-      return bills;
+      return new List.from(bills.reversed);
     }
   }
 
