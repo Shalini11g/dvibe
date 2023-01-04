@@ -4,6 +4,9 @@ d/vibe is a bill splitting and budgeting application that focuses on making it e
 
 This finance app is suitable for people who usually split bills, such as roommates, friend circles, or users who want to budget their monthly expenses. The app's main feature is the ability to split bills between the user and the app's contacts. When the contacts' share is due, a notification is sent to them. This eliminates the need for users to worry about misplacing receipts or constantly reminding people to pay.
 
+## Table of Contents
+[User Persona](https://github.com/akashMernedi/d-vibe#user-persona)
+
 ## User Persona
 
 ![User_Persona1](https://user-images.githubusercontent.com/92681996/210582619-ed462e84-0bc7-468b-a566-bf569117305d.png)
