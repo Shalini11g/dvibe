@@ -7,6 +7,7 @@ import 'package:bill_splitter/model/sharedBillParticipant.dart';
 import 'package:bill_splitter/model/transaction.dart';
 import 'package:bill_splitter/model/user.dart';
 import 'package:bill_splitter/viewModel/checkPhoneNumber.dart';
+import 'package:bill_splitter/viewModel/contact_tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_phone_number/get_phone_number.dart';
 import 'package:http/http.dart' as http;
@@ -95,8 +96,9 @@ class FirebaseDatabase{
 
   // get all transaction for the current user
   Future<List<Transaction>> getTransactions() async {
+    String phoneNumber = await GetPhoneNumber().get();
     List<Transaction> transactions = [];
-
+/*
     DateTime date = DateTime.now();
     transactions.add(Transaction(UserApp("Alex","+336 57 45 10 20"), UserApp("Bernard","+447 45 45 14 10"), 150, "Thank you", date));
     transactions.add(Transaction(UserApp("Akash","+336 45 11 01 20"), UserApp("Maurice","+447 86 54 24 75"), 50, "For the restaurant", date));
@@ -113,15 +115,25 @@ class FirebaseDatabase{
     participants.add(SharedBillParticipant("Louise","+33754562145",51,false));
     participants.add(SharedBillParticipant("Bernard","+33654756757",52,true));
     transactions[1].bill?.sharedBill = SharedBill(UserApp("Maurice","+447 86 54 24 75"), participants, "Don't forget for the restaurant");
-
-    //transactions = await _api.fetchTransaction("phone%20number");
-    return transactions;
+*/
+    try{
+      print(phoneNumber);
+      transactions = await _api.fetchTransaction(phoneNumber);
+      for(int i =0;i<transactions.length;i++){
+        transactions[i].from!.name = await ContactTool().getContactName(transactions[i].from!.phoneNumber);
+        transactions[i].to!.name = await ContactTool().getContactName(transactions[i].to!.phoneNumber);
+      }
+      return transactions;
+    }catch(e){
+      print(e);
+      return transactions;
+    }
   }
 
   //fake api
   Future<List<Bill>> getBills() async {
-
-    List<Bill> bills = [];
+    String phoneNumber = await GetPhoneNumber().get();
+    List<Bill> bills = [];/*
     DateTime date = DateTime.now();
     bills.add(Bill(UserApp("Jean Francis","+45 876 575676"),UserApp("Donald","+5455754876"),540.10,"For the cafe",date,true));
     bills.add(Bill(UserApp("Alex","+5455754876"),UserApp("Jean Francis","+45 876 575676"),45,"",date,false));
@@ -136,8 +148,18 @@ class FirebaseDatabase{
     participants.add(SharedBillParticipant("Bernard","+33654756757",52,true));
 
     bills[0].sharedBill = SharedBill(UserApp("Macron","+5645675675765"), participants, "I need money");
-
-    return bills;
+*/  try{
+      bills = await _api.fetchBills(phoneNumber);
+      for(int i =0;i<bills.length;i++){
+        bills[i].from!.name = await ContactTool().getContactName(bills[i].from!.phoneNumber);
+        bills[i].to!.name = await ContactTool().getContactName(bills[i].to!.phoneNumber);
+      }
+      return bills;
+    }
+    catch(e){
+      print(e);
+      return bills;
+    }
   }
 
 }

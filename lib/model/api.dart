@@ -84,6 +84,7 @@ class Api{
           'to':PhoneChecker().formatPhoneNumber(bill.to!.phoneNumber),
           'amount':bill.amount,
           'comment':bill.comment,
+          'isPay':bill.isPay,
           'timestamp':bill.dateOfCreation!.millisecondsSinceEpoch,
           'sharedbillid':-1
         }
@@ -98,34 +99,74 @@ class Api{
     debugPrint(response.body);
     var transactionJson = json.decode(response.body);
     List<Transaction> allTransaction = [];
-    transactionJson.forEach((rawTransaction) {
-      if(rawTransaction != null){
-        double amount = double.parse(rawTransaction["amount"].toString());
-        String comment = rawTransaction["comment"].toString();
-        //I will update this code to add the name
-        UserApp from = UserApp(rawTransaction["from"].toString(), rawTransaction["from"].toString());
-        UserApp to = UserApp(rawTransaction["to"].toString(), rawTransaction["to"].toString());
-        debugPrint(rawTransaction["timestamp"].toString());
-        //final DateTime date = DateTime.fromMicrosecondsSinceEpoch(int.parse(rawTransaction["timestamp"].toString()));
-        final DateTime date = DateTime.fromMillisecondsSinceEpoch(1672736467481);
-        Transaction transaction = Transaction(from, to, amount, comment, date);
-        allTransaction.add(transaction);
-      }
-    });
+    if(transactionJson is List){
+      transactionJson.forEach((rawTransaction) {
+        if(rawTransaction != null){
+          double amount = double.parse(rawTransaction["amount"].toString());
+          String comment = rawTransaction["comment"].toString();
+          //I will update this code to add the name
+          UserApp from = UserApp(rawTransaction["from"].toString(), rawTransaction["from"].toString());
+          UserApp to = UserApp(rawTransaction["to"].toString(), rawTransaction["to"].toString());
+          debugPrint(rawTransaction["timestamp"].toString());
+          //final DateTime date = DateTime.fromMicrosecondsSinceEpoch(int.parse(rawTransaction["timestamp"].toString()));
+          final DateTime date = DateTime.fromMillisecondsSinceEpoch(1672736467481);
+          Transaction transaction = Transaction(from, to, amount, comment, date);
+          allTransaction.add(transaction);
+        }
+      });
+    }else{
+      transactionJson.forEach((key, rawTransaction) {
+        if(rawTransaction != null){
+          double amount = double.parse(rawTransaction["amount"].toString());
+          String comment = rawTransaction["comment"].toString();
+          //I will update this code to add the name
+          UserApp from = UserApp(rawTransaction["from"].toString(), rawTransaction["from"].toString());
+          UserApp to = UserApp(rawTransaction["to"].toString(), rawTransaction["to"].toString());
+          debugPrint(rawTransaction["timestamp"].toString());
+          //final DateTime date = DateTime.fromMicrosecondsSinceEpoch(int.parse(rawTransaction["timestamp"].toString()));
+          final DateTime date = DateTime.fromMillisecondsSinceEpoch(1672736467481);
+          Transaction transaction = Transaction(from, to, amount, comment, date);
+          allTransaction.add(transaction);
+        }
+      });
+    }
+
     return allTransaction;
   }
   Future<List<Bill>> fetchBills(String phoneNumber) async {
     var response = await http.get(Uri.parse(this.firebaseUrl+'users/'+phoneNumber+'/bills.json'));
     debugPrint(response.body);
     var billJson = json.decode(response.body);
+    print(billJson);
     List<Bill> allBill = [];
-    billJson.forEach((rawBill) {
-      UserApp from = UserApp(rawBill["from"].toString(), rawBill["from"].toString());
-      UserApp to = UserApp(rawBill["to"].toString(), rawBill["to"].toString());
-      double amount = double.parse(rawBill["amount"].toString());
-      String comment = rawBill["comment"].toString();
-      DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(rawBill["timestamp"].toString()));
-    });
+
+    if(billJson is List){
+      billJson.forEach((rawBill) {
+        if(rawBill != null){
+          UserApp from = UserApp(rawBill["from"].toString(), rawBill["from"].toString());
+          UserApp to = UserApp(rawBill["to"].toString(), rawBill["to"].toString());
+          double amount = double.parse(rawBill["amount"].toString());
+          String comment = rawBill["comment"].toString();
+          bool isPay = rawBill["isPay"];
+          DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(rawBill["timestamp"].toString()));
+          allBill.add(Bill(from,to,amount,comment,date,isPay));
+        }
+      });
+    }else{
+      billJson.forEach((key,rawBill) {
+        if(rawBill != null){
+          UserApp from = UserApp(rawBill["from"].toString(), rawBill["from"].toString());
+          UserApp to = UserApp(rawBill["to"].toString(), rawBill["to"].toString());
+          double amount = double.parse(rawBill["amount"].toString());
+          String comment = rawBill["comment"].toString();
+          bool isPay = rawBill["isPay"];
+          DateTime date = DateTime.fromMillisecondsSinceEpoch(int.parse(rawBill["timestamp"].toString()));
+          allBill.add(Bill(from,to,amount,comment,date,isPay));
+        }
+      });
+    }
+
+
     return allBill;
   }
   Future<http.Response> putSharedBill(SharedBill sharedBill) async {
