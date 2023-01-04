@@ -1,16 +1,5 @@
-# bill_splitter
+# d/vibe 
 
-A new Flutter project.
+d/vibe is a bill splitting and budgeting application that focuses on making it easier to distribute the cost of group activities, and keeping track of an individual's personal expenditure. Users can make payments to their friends, making it easier for each individual to contribute his share for group payments.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This finance app is suitable for people who usually split bills, such as roommates, friend circles, or users who want to budget their monthly expenses. The app's main feature is the ability to split bills between the user and the app's contacts. When the contacts' share is due, a notification is sent to them. This eliminates the need for users to worry about misplacing receipts or constantly reminding people to pay.
