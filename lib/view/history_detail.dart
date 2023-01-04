@@ -5,30 +5,31 @@ import '../model/bill.dart';
 import '../model/transaction.dart';
 import '../viewModel/sm_strNumber_operation.dart';
 
-class TransactionDetailPage extends StatelessWidget{
+class TransactionDetailPage extends StatelessWidget {
   Transaction? transaction;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("Transaction"),),
+        appBar: AppBar(
+          title: Text("Transaction"),
+        ),
         body: _body(),
       ),
     );
   }
 
-  Widget _body(){
+  Widget _body() {
     return Column(
       children: [
         Text(transaction!.from!.name),
         Text(transaction!.from!.phoneNumber),
         Text(strNumber().formatNumber(transaction!.amount.toString()))
-
       ],
     );
   }
 
-  TransactionDetailPage(Transaction transaction){
+  TransactionDetailPage(Transaction transaction) {
     this.transaction = transaction;
   }
 }
