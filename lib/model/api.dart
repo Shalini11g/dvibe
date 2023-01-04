@@ -6,6 +6,7 @@ import 'package:bill_splitter/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
+import '../viewModel/checkPhoneNumber.dart';
 import 'bill.dart';
 
 class Api{
@@ -33,8 +34,8 @@ class Api{
           'amount': transaction.amount,
           'billId': billId,
           'comment': transaction.comment,
-          'from': transaction.from!.phoneNumber,
-          'to': transaction.to!.phoneNumber,
+          'from': PhoneChecker().formatPhoneNumber(transaction.from!.phoneNumber),
+          'to': PhoneChecker().formatPhoneNumber(transaction.to!.phoneNumber),
           'timestamp': transaction.dateOfTransaction!.millisecondsSinceEpoch
         }
       }),
@@ -79,8 +80,8 @@ class Api{
       },
       body: jsonEncode({
         bill.id.toString(): {
-          'from':bill.from!.phoneNumber,
-          'to':bill.to!.phoneNumber,
+          'from':PhoneChecker().formatPhoneNumber(bill.from!.phoneNumber),
+          'to':PhoneChecker().formatPhoneNumber(bill.to!.phoneNumber),
           'amount':bill.amount,
           'comment':bill.comment,
           'timestamp':bill.dateOfCreation!.millisecondsSinceEpoch,
@@ -135,7 +136,7 @@ class Api{
         'amount':participant.amount,
         'hasPay':participant.hasPay
       };
-      participants[participant.user!.phoneNumber] = map;
+      participants[PhoneChecker().formatPhoneNumber(participant.user!.phoneNumber)] = map;
     });
     //then we send a request
     final http.Response response = await http.patch(
@@ -145,7 +146,7 @@ class Api{
       },
       body: jsonEncode({
         sharedBill.id.toString(): {
-          'from':sharedBill.from!.phoneNumber,
+          'from':PhoneChecker().formatPhoneNumber(sharedBill.from!.phoneNumber),
           'comment':sharedBill.comment,
           'to': participants,
         }

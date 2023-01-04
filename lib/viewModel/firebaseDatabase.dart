@@ -6,6 +6,7 @@ import 'package:bill_splitter/model/sharedBill.dart';
 import 'package:bill_splitter/model/sharedBillParticipant.dart';
 import 'package:bill_splitter/model/transaction.dart';
 import 'package:bill_splitter/model/user.dart';
+import 'package:bill_splitter/viewModel/checkPhoneNumber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_phone_number/get_phone_number.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +22,7 @@ class FirebaseDatabase{
       String phoneNumber = await GetPhoneNumber().get();
       debugPrint('getPhoneNumber result: $phoneNumber');
       transaction.from!.phoneNumber = phoneNumber;
+      transaction.to!.phoneNumber = PhoneChecker().formatPhoneNumber(transaction.to!.phoneNumber);
       transaction.id = await _api.getTransactionId();
       debugPrint("transaction id "+transaction.id.toString());
       final http.Response response = await _api.createNewTransaction(transaction,"users/"+transaction.to!.phoneNumber+"/transactions.json"); //add transaction in contact transaction list
@@ -34,11 +36,13 @@ class FirebaseDatabase{
   //create new bill
   Future<bool> sendBill(Bill bill) async {
     try{
-      String phoneNumber = await GetPhoneNumber().get();
-      debugPrint('getPhoneNumber result: $phoneNumber');
+      //String phoneNumber = await GetPhoneNumber().get();
       bill.id = await _api.getBillId();
-      bill.from!.phoneNumber = phoneNumber;
-      debugPrint("bill id "+bill.id.toString());
+      print(bill.id);
+      //bill.from!.phoneNumber = phoneNumber;
+      bill.to!.phoneNumber = PhoneChecker().formatPhoneNumber(bill.to!.phoneNumber);
+      bill.from!.phoneNumber = "phonenumber";
+      print(bill.from!.phoneNumber);
       final http.Response response = await _api.putBill(bill, "users/"+bill.to!.phoneNumber+"/bills.json");
       final http.Response response2 = await _api.putBill(bill, "users/"+bill.from!.phoneNumber+"/bills.json");
       final http.Response response3 = await _api.updateCountBill(bill.id+1);
@@ -54,7 +58,7 @@ class FirebaseDatabase{
       Transaction transaction = Transaction(bill.from!, bill.to!, bill.amount, "reimbursement", DateTime.now());
       sendMoney(transaction);
       bill.isPay = true;
-      var response = await _api.putBill(bill, "users/"+bill.to!.phoneNumber+"/bills.json");
+      var response = await _api.putBill(bill, "users/"+PhoneChecker().formatPhoneNumber(bill.to!.phoneNumber)+"/bills.json");
       bool sharedBillIsOk = true;
       if(bill.isSharedBill()){
         var response2 = await _api.paySharedBill(bill.sharedBill!.id, phoneNumber);
@@ -73,8 +77,14 @@ class FirebaseDatabase{
      sharedBill.id = await _api.getSharedBillId();
      var response = await _api.putSharedBill(sharedBill);
      var response2 = await _api.updateCountSharedBill(sharedBill.id+1);
-
-     return response.statusCode == 200 && response2.statusCode == 200;
+     bool isSend = true;
+     Future.forEach(sharedBill.to!, (participant) async {
+       Bill bill = Bill(sharedBill.from!,participant.user!,participant.amount,sharedBill.comment,DateTime.now(),participant.hasPay);
+       bill.sharedBill = sharedBill;
+       bool isOk = await sendBill(bill);
+       isSend = isSend && isOk;
+     });
+     return isSend && response.statusCode == 200 && response2.statusCode == 200;
    } catch(e){
      return false;
    }
