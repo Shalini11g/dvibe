@@ -20,3 +20,16 @@ This finance app is suitable for people who usually split bills, such as roommat
 
 ![image](https://user-images.githubusercontent.com/92681996/210582912-32569459-3feb-4734-bb82-7acba798c535.png)
 
+# Context Diagram 
+
+![context drawio](https://user-images.githubusercontent.com/92681996/210583829-03b87958-3fe1-410e-8b77-6eddc594a2da.png)
+
+# App's Internal Architecture 
+
+![architecture drawio (1)](https://user-images.githubusercontent.com/92681996/210583986-ea1c0cb8-9929-4011-8b3a-13bd709c5ed2.png)
+
+# Wireframes
+
+![Lekaraj_wireframe](https://user-images.githubusercontent.com/92681996/210583579-eb8f23c4-e6d5-4b46-a8ed-65551c507132.png)
+
+![pavitra_wireframe](https://user-images.githubusercontent.com/92681996/210583631-644fa2a6-3592-44a7-8718-2458c68b04fb.png)
