@@ -1,4 +1,4 @@
-# d/vibe : A bill splitting app
+# d/vibe : A Bill Splitting App
 
 d/vibe is a bill splitting and budgeting application that focuses on making it easier to distribute the cost of group activities, and keeping track of an individual's personal expenditure. Users can make payments to their friends, making it easier for each individual to contribute their share for group payments.
 
