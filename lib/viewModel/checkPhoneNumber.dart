@@ -12,7 +12,19 @@ class PhoneChecker{
     });
     this.isOk = isOk;
   }
+  PhoneChecker(){
+
+  }
   bool _isNumberOk(String phoneNumber){
     return phoneNumber[0] == "+";
+  }
+  String formatPhoneNumber(String phoneNumber){
+    phoneNumber = phoneNumber.replaceAll(' ', "");
+    phoneNumber = phoneNumber.replaceAll('-', "");
+    phoneNumber = phoneNumber.replaceAll('(', "");
+    phoneNumber = phoneNumber.replaceAll(')', "");
+    phoneNumber = phoneNumber.replaceAll('[', "");
+    phoneNumber = phoneNumber.replaceAll(']', "");
+    return phoneNumber;
   }
 }
