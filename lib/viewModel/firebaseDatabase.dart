@@ -152,7 +152,11 @@ class FirebaseDatabase{
       bills = await _api.fetchBills(phoneNumber);
       for(int i =0;i<bills.length;i++){
         bills[i].from!.name = await ContactTool().getContactName(bills[i].from!.phoneNumber);
+        print("from "+bills[i].from!.phoneNumber);
+        print("from "+bills[i].from!.name);
         bills[i].to!.name = await ContactTool().getContactName(bills[i].to!.phoneNumber);
+        print("to "+bills[i].to!.phoneNumber);
+        print("to "+bills[i].to!.name);
       }
       return bills;
     }
