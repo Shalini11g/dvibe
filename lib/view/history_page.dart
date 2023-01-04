@@ -1,8 +1,11 @@
 import 'package:bill_splitter/view/history_detail.dart';
 import 'package:bill_splitter/viewModel/firebaseDatabase.dart';
 import 'package:flutter/material.dart';
+import 'package:get_phone_number/get_phone_number.dart';
 
 import '../model/transaction.dart';
+import '../model/user.dart';
+import '../viewModel/checkPhoneNumber.dart';
 
 
 class HistoryPage extends StatefulWidget {
@@ -14,6 +17,7 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   List<Transaction>? _transactionsList;
+  String phoneNumber = "";
   @override
   void initState() {
     _fetchData();
@@ -21,6 +25,8 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   Future _fetchData() async {
+    phoneNumber = await GetPhoneNumber().get();
+    phoneNumber = PhoneChecker().formatPhoneNumber(phoneNumber);
     FirebaseDatabase api = new FirebaseDatabase();
     final userTransactions = await api.getTransactions();
     setState(() => _transactionsList = userTransactions);
@@ -44,16 +50,39 @@ class _HistoryPageState extends State<HistoryPage> {
       ),
     );
   }
-  Widget _renderOneTransaction(Transaction transaction){
-    bool iWasSendingMoney = transaction.from!.phoneNumber == "+336 45 11 01 20";
-    return Row(
-      children: [
-        sendOrReceive(iWasSendingMoney),
-        Text(transaction.amount.toString()),
-        Text(transaction.from!.name),
-        Text(transaction.comment),
-        Text(transaction.dateOfTransaction.toString().substring(0,10))
-      ],
+  Widget _renderOneTransaction(Transaction transaction) {
+    bool iMustSendMoney = phoneNumber == PhoneChecker().formatPhoneNumber(transaction.from!.phoneNumber);
+    UserApp other = transaction.from!;
+    if (iMustSendMoney) {
+      other = transaction.to!;
+    }
+    String comment = transaction.comment;
+    if (transaction.comment.length > 30) {
+      comment = comment.substring(0, 30);
+    } else if (transaction.comment.length == 0) {
+      comment = "...";
+    }
+
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ListTile(
+            leading: sendOrReceive(iMustSendMoney),
+            title: Text(other.name),
+            subtitle: Text(comment),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              const SizedBox(width: 8),
+              Text(transaction.dateOfTransaction.toString().substring(0,10)),
+              const SizedBox(width: 8),
+            ],
+          ),
+          const SizedBox(height: 8)
+        ],
+      ),
     );
   }
   Icon sendOrReceive(bool iWasSendingMoney){
