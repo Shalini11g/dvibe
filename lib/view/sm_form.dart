@@ -26,8 +26,10 @@ class SendMoneyAmountComment extends StatefulWidget {
 
 class SendMoneyAmountCommentState extends State<SendMoneyAmountComment> {
   Contact _contact = new Contact();
-  TextEditingController inputAmountOfMoneyToSend = TextEditingController();
-  TextEditingController inputCommentWithMoneySend = TextEditingController();
+  var inputAmountOfMoneyToSend = TextEditingController();
+  var inputCommentWithMoneySend = TextEditingController();
+  String amount = "";
+  String comment = "";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,6 +44,8 @@ class SendMoneyAmountCommentState extends State<SendMoneyAmountComment> {
   }
 
   Widget _body() {
+    inputAmountOfMoneyToSend.text = amount;
+    inputCommentWithMoneySend.text = comment;
     return Container(
       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Form(
@@ -67,6 +71,11 @@ class SendMoneyAmountCommentState extends State<SendMoneyAmountComment> {
                 ),
                 SizedBox(height: 10),
                 TextFormField(
+                  onEditingComplete: (){
+                    amount = inputAmountOfMoneyToSend.text;
+                    FocusScopeNode currentFocus = FocusScope.of(context);
+                    currentFocus.unfocus();
+                  },
                   controller: inputAmountOfMoneyToSend,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
@@ -76,6 +85,11 @@ class SendMoneyAmountCommentState extends State<SendMoneyAmountComment> {
                 Text("Message:", style: TextStyle(fontSize: 20)),
                 SizedBox(height: 10),
                 TextField(
+                  onEditingComplete: (){
+                    comment = inputCommentWithMoneySend.text;
+                    FocusScopeNode currentFocus = FocusScope.of(context);
+                    currentFocus.unfocus();
+                  },
                   controller: inputCommentWithMoneySend,
                   keyboardType: TextInputType.multiline,
                   maxLength: 512,
@@ -88,11 +102,8 @@ class SendMoneyAmountCommentState extends State<SendMoneyAmountComment> {
               ],
             ),
             ElevatedButton(
-              onPressed: () {
-                SendMoneyformController testForm = SendMoneyformController(
-                    inputAmountOfMoneyToSend.text,
-                    inputCommentWithMoneySend.text);
-                if (testForm.isOk) {
+
+              onPressed:(isOk())?(){
                   debugPrint("Test passed");
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext) {
@@ -100,13 +111,10 @@ class SendMoneyAmountCommentState extends State<SendMoneyAmountComment> {
                           inputAmountOfMoneyToSend.text, this._contact,inputCommentWithMoneySend.text);
                     },
                   ));
-                } else {
-                  debugPrint("Invalid value");
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: const Text('Macron explosion')));
                 }
-              },
+                :null,
               child: const Text("Send money"),
+
             ),
             SizedBox(height: 20),
           ],
@@ -117,5 +125,8 @@ class SendMoneyAmountCommentState extends State<SendMoneyAmountComment> {
 
   SendMoneyAmountCommentState(Contact contact) {
     this._contact = contact;
+  }
+  bool isOk(){
+    return SendMoneyformController(inputAmountOfMoneyToSend.text,inputCommentWithMoneySend.text).isOk;
   }
 }

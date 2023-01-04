@@ -38,83 +38,89 @@ class SharedBillFormState extends State<SharedBillForm>{
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text("Split the bill"),),
+        appBar: AppBar(title: Text("Shared bill"),),
         body: SingleChildScrollView(
           child: _body()
         )
       ),
     );
   }
-
+//margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
   Widget _body(){
     amountController.text = this.totalAmountInput;
-    return Column(
-      children: [
-        SizedBox(height: 10),
-        Text(
-          "Total amount:",
-          style: TextStyle(fontSize: 20),
-        ),
-        SizedBox(height: 10),
-        TextFormField(
-          controller: amountController,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-              hintText: "in dollars \$", border: OutlineInputBorder()),
-          onEditingComplete: (){
-            setState(() {
-              //this controller work well for this form
-              bool isOk = SendMoneyformController(amountController.text,"").isOk;
-              if(isOk){
-                this.totalAmountInput = amountController.text;
-                updateRepartition(double.parse(amountController.text));
-              }
-            });
-            FocusScopeNode currentFocus = FocusScope.of(context);
-            currentFocus.unfocus();
-          },
-        ),
-        SizedBox(height: 30),
-        Text("Message:", style: TextStyle(fontSize: 20)),
-        SizedBox(height: 10),
-        TextField(
-          controller: commentController,
-          keyboardType: TextInputType.multiline,
-          maxLength: 512,
-          maxLines: 5,
-          minLines: 5,
-          decoration: const InputDecoration(
-              hintText: "Thank you for helping!",
-              border: OutlineInputBorder()),
-        ),
-        SizedBox(height: 20),
-        Text("Repartition:", style: TextStyle(fontSize: 20)),
-        SizedBox(height: 10),
-        ListView.builder(
-            primary: false,
-            shrinkWrap: true,
-            itemCount: contactList!.length+1,
-            itemBuilder: (context, i) => ListTile(
-              title: _drawOneContact((i==0)?Contact():contactList![i-1],i),
+    return Container(
+      margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10),
+          Text(
+            "Total amount:",
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(height: 10),
+          TextFormField(
+            controller: amountController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+                hintText: "in dollars \$", border: OutlineInputBorder()),
+            onEditingComplete: (){
+              setState(() {
+                //this controller work well for this form
+                bool isOk = SendMoneyformController(amountController.text,"").isOk;
+                if(isOk){
+                  this.totalAmountInput = amountController.text;
+                  updateRepartition(double.parse(amountController.text));
+                }
+              });
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              currentFocus.unfocus();
+            },
+          ),
+          SizedBox(height: 30),
+          Text("Message:", style: TextStyle(fontSize: 20)),
+          SizedBox(height: 10),
+          TextField(
+            controller: commentController,
+            keyboardType: TextInputType.multiline,
+            maxLength: 512,
+            maxLines: 5,
+            minLines: 5,
+            decoration: const InputDecoration(
+                hintText: "Thank you for helping!",
+                border: OutlineInputBorder()),
+          ),
+          SizedBox(height: 20),
+          Text("Repartition:", style: TextStyle(fontSize: 20)),
+          SizedBox(height: 10),
+          ListView.builder(
+              primary: false,
+              shrinkWrap: true,
+              itemCount: contactList!.length+1,
+              itemBuilder: (context, i) => ListTile(
+                title: _drawOneContact((i==0)?Contact():contactList![i-1],i),
 
-            )),
-        SizedBox(height: 20),
-        ElevatedButton(onPressed:allValueAreOk()?
-        (){
-          Navigator.of(context).push(
-              MaterialPageRoute(
-                // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
-                builder: (BuildContext) {
-                  return SharedBillConfirmationPage(contactList, personalAmount,strNumber().cleanNumber(amountController.text));
-                  //return SendMoneySelectContact(context).view();
-                },
-              ));
-        }
-            :null,
-            child: Text("Share bill")),
-        SizedBox(height: 20),
+              )),
+          SizedBox(height: 20),
+          Center(
+            child: ElevatedButton(onPressed:allValueAreOk()?
+                (){
+              Navigator.of(context).push(
+                  MaterialPageRoute(
+                    // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
+                    builder: (BuildContext) {
+                      return SharedBillConfirmationPage(contactList, personalAmount,strNumber().cleanNumber(amountController.text));
+                      //return SendMoneySelectContact(context).view();
+                    },
+                  ));
+            }
+                :null,
+                child: Text("Share bill")),
+          ),
+          SizedBox(height: 20),
 
-      ],
+        ],
+      ),
     );
   }
 

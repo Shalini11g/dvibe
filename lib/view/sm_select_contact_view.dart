@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:bill_splitter/viewModel/generate_simple_contact_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:bill_splitter/view/sm_amount_comment.dart';
+import 'package:bill_splitter/view/sm_form.dart';
 
 /*
 This class use ListContact with a custom function.
