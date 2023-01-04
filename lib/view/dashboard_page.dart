@@ -1,6 +1,5 @@
 import 'package:bill_splitter/view/chooseActionAfterPushThePlusButton.dart';
 import 'package:flutter/material.dart';
-import 'package:bill_splitter/view/sm_select_contact_view.dart';
 
 import 'package:bill_splitter/view/bills_page.dart';
 import 'package:bill_splitter/view/history_page.dart';
@@ -33,7 +32,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 MaterialPageRoute(
                   // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
                   builder: (BuildContext) {
-                    return ChooseActionAfterPushThePlusButton();
+                    return const ChooseActionAfterPushThePlusButton();
                     //return SendMoneySelectContact(context).view();
                   },
                 ),
@@ -76,20 +75,6 @@ class _DashboardPageState extends State<DashboardPage> {
         ],
       ),
 
-      // floatingActionButton: FloatingActionButton(
-      //     onPressed: () {
-      //       debugPrint('Add bill button clicked');
-      //       Navigator.of(context).push(
-      //         MaterialPageRoute(
-      //           // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
-      //           builder: (BuildContext) {
-      //             return ChooseActionAfterPushThePlusButton();
-      //             //return SendMoneySelectContact(context).view();
-      //           },
-      //         ),
-      //       );
-      //     },
-      //     child: const Icon(Icons.add)),
       // Bottom Navbar
       bottomNavigationBar: NavigationBar(
         destinations: const [
