@@ -1,3 +1,4 @@
+import 'package:bill_splitter/view/login_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,8 @@ class _LoginScreenState extends State<LoginScreen> {
   // Login Function
   static Future<User?> loginUsingEmailPassword(
       {required String email,
-        required String password,
-        required BuildContext context}) async {
+      required String password,
+      required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
     try {
@@ -109,17 +110,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => DashboardPage()));
                 }
-                print('Login Button Clicked');
-                // Navigator.of(context).pushReplacement(
-                //     MaterialPageRoute(builder: (context) => DashboardPage()));
-                print('Page redirected');
 
                 // Bypassing the login screen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const DashboardPage()),
-                );
+                // debugPrint('Bypassed Login screnn');
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => const DashboardPage()),
+                // );
               },
               child: const Text(
                 "Login",

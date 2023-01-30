@@ -8,6 +8,7 @@ class LoginPages extends StatefulWidget {
 }
 
 class _LoginPagesState extends State<LoginPages> {
+  get onTap => null;
   @override
   Widget build(BuildContext context) {
     return Padding(
